@@ -1,0 +1,58 @@
+#!/bin/sh
+# vim: filetype=sh
+
+# Verbose settings thats are nice to have most of the time
+alias \
+	cp="cp -iv" \
+	mkd="mkdir -pv" \
+	mv="mv -iv" \
+	rm="rm -v"
+
+# Colorize when possible.
+alias \
+	diff="diff --color=auto" \
+	grep="grep --color=auto" \
+	ls="gls -N --color=auto --group-directories-first"
+
+# Shortcuts
+alias \
+	D="cd $HOME/Documents" \
+	L="gls -ANhl --color=auto --group-directories-first" \
+	blaze="bazel" \
+	cf="cd $HOME/.config" \
+	cfa="$EDITOR $HOME/.config/aliasrc" \
+	cfn="$EDITOR $HOME/.config/nvim" \
+	cft="$EDITOR $HOME/.config/tmux/tmux.conf" \
+	cfz="$EDITOR $ZDOTDIR/.zshrc" \
+	cls="clear" \
+	d="cd $HOME/Downloads" \
+	dd="cd $HOME/Desktop" \
+	de="conda deactivate && cd" \
+	djc="find . -path '*/migrations/*.py' -not -name '__init__.py' -delete && find . -path '*/migrations/*.pyc' -delete" \
+	djg="./manage.py graph_models -a -o models.png && open models.png" \
+	dji="./manage.py shell -i ipython" \
+	djm="./manage.py makemigrations && ./manage.py migrate" \
+	djr="./manage.py reset_db" \
+	djs="./manage.py runserver" \
+	g="git" \
+	gp="git pull" \
+	gaa="git add -A" \
+	gpom="git push origin main" \
+	gtsc="git commit -m 'updated $(date)'" \
+	gcc="gcc-13" \
+	g++="g++-13" \
+	h="head" \
+	ka="killall" \
+	kctl="kubectl" \
+	l="gls -1N --color=auto --group-directories-first" \
+	lb="cd $HOME/.local/bin" \
+	ll="gls -ANhl --color=auto --group-directories-first" \
+	p3="python3" \
+	pip="python3 -W ignore -m pip" \
+	python="python3" \
+	sdn="sudo shutdown -h now" \
+	so="source $ZDOTDIR/.zshrc" \
+	t="tail" \
+	tmls="tmux ls" \
+	v="nvim" \
+	vim="nvim"

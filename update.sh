@@ -13,6 +13,7 @@ yes | cp -vr $HOME/.config/yapf ./.config
 yes | cp -vr $HOME/.config/zsh/custom_completions ./.config/zsh
 yes | cp -vr $HOME/.local/bin/ ./.local
 
+yes | cp -v $HOME/.config/aliasrc ./.config
 yes | cp -v $HOME/.config/zsh/.zshrc ./.config/zsh
 yes | cp -v $HOME/.condarc ./.condarc
 yes | cp -v $HOME/.fdignore ./.fdignore

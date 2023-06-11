@@ -140,11 +140,56 @@ km.set("c", "w!!", "exe 'silent! write !sudo tee % >/dev/null' <bar> edit!")
 --------------------------------------------------------------------------------
 
 local color = require("onedark.palette").dark
+color.cyan = "#28a99e"
+color.grey = "#484d5a"
 local none = "none"
-api.nvim_set_hl(0, "CmpItem", { bold = true })
--- TODO CmpItem highlight colors
 api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = color.orange, bg = none, underline = true })
 api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = color.orange, bg = none, underline = true })
+-- begin CmpItemKind highlights
+-- red
+api.nvim_set_hl(0, "CmpItemKindNamespace", { reverse = true, fg = color.yellow })
+api.nvim_set_hl(0, "CmpItemKindObject", { reverse = true, fg = color.light_grey })
+api.nvim_set_hl(0, "CmpItemKindOperator", { reverse = true, fg = color.green })
+api.nvim_set_hl(0, "CmpItemKindSnippet", { reverse = true, fg = color.yellow })
+api.nvim_set_hl(0, "CmpItemKindTypeParameter", { reverse = true, fg = color.orange })
+-- orange
+api.nvim_set_hl(0, "CmpItemKindBoolean", { reverse = true, fg = color.blue })
+api.nvim_set_hl(0, "CmpItemKindConstant", { reverse = true, fg = color.green })
+api.nvim_set_hl(0, "CmpItemKindFolder", { reverse = true, fg = color.light_grey })
+api.nvim_set_hl(0, "CmpItemKindModule", { reverse = true, fg = color.purple })
+api.nvim_set_hl(0, "CmpItemKindNumber", { reverse = true, fg = color.light_grey })
+api.nvim_set_hl(0, "CmpItemKindReference", { reverse = true, fg = color.red })
+api.nvim_set_hl(0, "CmpItemKindValue", { reverse = true, fg = color.green })
+-- yellow
+api.nvim_set_hl(0, "CmpItemKindArray", { reverse = true, fg = color.orange })
+api.nvim_set_hl(0, "CmpItemKindClass", { reverse = true, fg = color.blue })
+api.nvim_set_hl(0, "CmpItemKindEnumMember", { reverse = true, fg = color.purple })
+api.nvim_set_hl(0, "CmpItemKindEvent", { reverse = true, fg = color.cyan })
+api.nvim_set_hl(0, "CmpItemKindPackage", { reverse = true, fg = color.orange })
+-- green
+api.nvim_set_hl(0, "CmpItemKindColor", { reverse = true, fg = color.purple })
+api.nvim_set_hl(0, "CmpItemKindInterface", { reverse = true, fg = color.blue })
+api.nvim_set_hl(0, "CmpItemKindString", { reverse = true, fg = color.cyan })
+api.nvim_set_hl(0, "CmpItemKindText", { reverse = true, fg = color.red })
+api.nvim_set_hl(0, "CmpItemKindUnit", { reverse = true, fg = color.green })
+-- cyan
+api.nvim_set_hl(0, "CmpItemKindKey", { reverse = true, fg = color.yellow })
+api.nvim_set_hl(0, "CmpItemKindKeyword", { reverse = true, fg = color.yellow })
+api.nvim_set_hl(0, "CmpItemKindProperty", { reverse = true, fg = color.orange })
+-- blue
+api.nvim_set_hl(0, "CmpItemKindConstructor", { reverse = true, fg = color.red })
+api.nvim_set_hl(0, "CmpItemKindFile", { reverse = true, fg = color.light_grey })
+api.nvim_set_hl(0, "CmpItemKindFunction", { reverse = true, fg = color.green })
+api.nvim_set_hl(0, "CmpItemKindMethod", { reverse = true, fg = color.purple })
+-- purple
+api.nvim_set_hl(0, "CmpItemKindEnum", { reverse = true, fg = color.green })
+api.nvim_set_hl(0, "CmpItemKindField", { reverse = true, fg = color.blue })
+api.nvim_set_hl(0, "CmpItemKindStruct", { reverse = true, fg = color.yellow })
+api.nvim_set_hl(0, "CmpItemKindVariable", { reverse = true, fg = color.red })
+-- grey
+api.nvim_set_hl(0, "CmpItemKindDefault", { reverse = true, fg = color.light_grey })
+api.nvim_set_hl(0, "CmpItemKindNull", { reverse = true, fg = color.grey })
+-- end CmpItemKind highlights
 api.nvim_set_hl(0, "Folded", { fg = color.black, bg = color.light_grey, bold = true })
 api.nvim_set_hl(0, "FzfLuaNormal", { link = "Normal" })
 api.nvim_set_hl(0, "FzfLuaBorder", { fg = color.blue, bg = none })
