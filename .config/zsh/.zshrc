@@ -1,13 +1,27 @@
+# Path
+export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/Workspaces/go/bin:/usr/local/texlive/2022/bin/universal-darwin:/opt/homebrew/opt/fzf/bin
+
+# Variables
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# Keep HOME clean
+export GOPATH="$HOME/Workspaces/go"
+export HISTFILE="$HOME/.config/zsh/.zsh_history"
+export LESS=-R
+export LESSHISTFILE="/dev/null"
+export ZDOTDIR="$HOME/.config/zsh"
+
 # Colors
 autoload -U colors && colors
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export ZDOTDIR="$HOME/.config/zsh"
 
 # Prevent virtual environment prompt
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# CAUSES SLOWER STARTUP
 # nvm 
 # export NVM_DIR="$HOME/.config/nvm"
 # loads nvm and completions
@@ -16,8 +30,6 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Oh My Zsh
 source $ZSH/oh-my-zsh.sh
-
-## USER CONFIG ##
 
 # Functions
 act() {
@@ -128,4 +140,10 @@ unset __conda_setup
 # kubectl auto completions
 source <(kubectl completion zsh)
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf
+[[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
+source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+export FZF_ALT_C_COMMAND="fd --type d --strip-cwd-prefix --hidden --follow | sort"
+export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow | sort"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="--color=fg:#abb2bf,bg:#282c34,preview-bg:#282c34,hl:#d19a66:underline,fg+:#61afef,bg+:#31353f,hl+:#d19a66:underline,info:#98c379,border:#61afef,prompt:#c678dd,pointer:#e86671,marker:#c678dd,spinner:#98c379"

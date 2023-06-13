@@ -118,6 +118,7 @@ null_ls.setup({
 		fmt.buildifier,
 		fmt.clang_format.with({
 			filetypes = { "c", "cpp", "proto" },
+			extra_args = { "--style", "{BasedOnStyle: Google}" },
 		}),
 		fmt.gofmt,
 		fmt.goimports,
