@@ -1,0 +1,40 @@
+#!/bin/sh
+# vim: filetype=sh
+
+alias \
+  L="gls -AFNhl --color=auto --group-directories-first" \
+  act="source .venv/bin/activate" \
+  cfa="$EDITOR $HOME/.config/aliasrc" \
+  cfg="cd $HOME/.config" \
+  cfk="$EDITOR $HOME/.config/kitty/kitty.conf" \
+  cfn="$EDITOR $HOME/.config/nvim" \
+  cft="$EDITOR $HOME/.config/tmux/tmux.conf" \
+  cfz="$EDITOR $ZDOTDIR/.zshrc" \
+  clear="z4h-clear-screen-soft-bottom" \
+  cls="z4h-clear-screen-soft-bottom" \
+  cp="cp -iv" \
+  d="docker" \
+  dc="docker compose" \
+  de="deactivate" \
+  diff="diff --color=auto" \
+  gc="git commit --allow-empty -m" \
+  ga="git add -A" \
+  gac="git add -A && git commit --allow-empty -m" \
+  grep="grep --color=auto" \
+  gs="git status" \
+  gtsc='git commit -m ''"updated $(date)"' \
+  h="head" \
+  k="kubectl" \
+  l="gls -1N --color=auto --group-directories-first" \
+  ll="gls -AFNhl --color=auto --group-directories-first" \
+  ls="gls -N --color=auto --group-directories-first" \
+  mkd="mkdir -pv" \
+  mv="mv -iv" \
+  p3="python3" \
+  rm="rm -v" \
+  sdn="sudo shutdown -h now" \
+  so="source $ZDOTDIR/.zshrc" \
+  t="tail" \
+  todo="godoit" \
+  tmls="tmux ls" \
+  v="nvim"

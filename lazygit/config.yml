@@ -1,0 +1,16 @@
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --tabs=2
+gui:
+  tabWidth: 2
+  mouseEvents: true
+  sidePanelWidth: 0.3
+  expandFocusedSidePanel: true
+  expandedSidePanelWeight: 10
+  theme:
+    selectedLineBgColor:
+      - "#31353f"
+quitOnTopLevelReturn: true
+notARepository: skip
+promptToReturnFromSubprocess: false

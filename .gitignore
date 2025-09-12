@@ -1,0 +1,17 @@
+.DS_Store
+configstore
+gatsby
+gcloud
+gh
+git
+github-copilot
+lazyvim
+ngrok
+nvim-lazy.bak
+nvim.bak
+nvim
+.zsh_history
+
+# ignore backups and binaries
+*.bak
+*.zwc

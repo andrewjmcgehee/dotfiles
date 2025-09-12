@@ -1,0 +1,4 @@
+alt - 1 : open -a Kitty.app
+alt - 2 : open -a Zen.app
+alt - 3 : osascript $HOME/.local/bin/open-osrs.scpt
+alt - 4 : open -a "Docker Desktop.app"
