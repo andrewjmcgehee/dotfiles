@@ -162,7 +162,7 @@ export FZF_ALT_C_COMMAND="fd --type d . $HOME --hidden --follow | sort"
 export FZF_WS_COMMAND="fd -d 3 --type d . $HOME/Workspaces --hidden --follow | sort"
 export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow | sort"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="--color=fg:#abb2bf,bg:#282c34,preview-bg:#282c34,hl:#d19a66:underline,fg+:#61afef,bg+:#31353f,hl+:#d19a66:underline,info:#98c379,border:#61afef,prompt:#c678dd,pointer:#e86671,marker:#c678dd,spinner:#98c379"
+export FZF_DEFAULT_OPTS="--color=bg+:#2d3f76,bg:#1e2030,border:#589ed7,fg:#c8d3f5,hl+:#65bcff,hl:#65bcff,info:#545c7e,marker:#ff007c,pointer:#ff007c,prompt:#65bcff,spinner:#ff007c,gutter:#1e2030,header:#ff966c"
 # change fzf key-bindings
 bindkey "^T" transpose-chars
 bindkey -r "^F" 

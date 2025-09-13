@@ -18,10 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = {
 		{
-			dir = vim.fn.expand("$HOME/.config/nvim2/lua/lazyvim"),
-			import = "lazyvim.plugins",
+			dir = vim.fn.expand("$HOME/.config/nvim2/lua/zim"),
+			import = "zim.plugins",
 		},
-		{ import = "plugins" },
 	},
 	defaults = {
 		lazy = false,
