@@ -7,11 +7,9 @@ git
 github-copilot
 mylazyvim
 ngrok
-nvim-lazy.bak
-nvim.bak
-nvim
 .zsh_history
 
 # ignore backups and binaries
 *.bak
+*.old
 *.zwc

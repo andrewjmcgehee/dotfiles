@@ -3,7 +3,7 @@ require("zim.config").init()
 return {
 	{ "folke/lazy.nvim", version = "*" },
 	{
-		dir = vim.fn.expand("$HOME/.config/nvim2/lua/zim"),
+		dir = vim.fn.expand("$HOME/.config/nvim/lua/zim"),
 		priority = 10000,
 		lazy = false,
 		opts = {},
