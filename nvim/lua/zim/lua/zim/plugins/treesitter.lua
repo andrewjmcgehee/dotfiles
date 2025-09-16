@@ -8,6 +8,7 @@ return {
 	--     },
 	--   },
 	-- },
+  -- TODO: figure out why this fails on first install
 	{
 		"nvim-treesitter/nvim-treesitter",
 		version = false, -- last release is way too old and doesn't work on Windows

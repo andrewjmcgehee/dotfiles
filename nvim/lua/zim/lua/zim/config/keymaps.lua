@@ -118,6 +118,8 @@ map("n", "<leader>uI", function()
 end, { desc = "Inspect Tree" })
 
 -- explore
+-- TODO: remove this after adding neo tree (maybe)
+map("n", "<leader>e", vim.cmd.Explore, { desc = "Explore", remap = true })
 map("n", "<leader>h", vim.cmd.Hexplore, { desc = "Split Window Below", remap = true })
 map("n", "<leader>v", vim.cmd.Vexplore, { desc = "Split Window Left", remap = true })
 
