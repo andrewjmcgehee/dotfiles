@@ -19,7 +19,7 @@ require("lazy").setup({
 	spec = {
 		{
 			dir = vim.fn.expand("$HOME/.config/nvim/lua/zim"),
-			import = "zim.plugins",
+			import = "zim.lua.zim.plugins",
 		},
 	},
 	defaults = {

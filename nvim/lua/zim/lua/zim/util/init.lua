@@ -1,26 +1,12 @@
-local LazyUtil = require("lazy.core.util")
+local lazyutil = require("lazy.core.util")
 
----@class zim.util: LazyUtilCore
----@field config ZimConfig
----@field ui zim.util.ui
----@field lsp zim.util.lsp
----@field root zim.util.root
----@field terminal zim.util.terminal
----@field format zim.util.format
----@field plugin zim.util.plugin
----@field extras zim.util.extras
----@field inject zim.util.inject
----@field json zim.util.json
----@field lualine zim.util.lualine
----@field mini zim.util.mini
----@field pick zim.util.pick
----@field cmp zim.util.cmp
 local M = {}
 
+-- TODO: check if lazygit actually needs special case...
 setmetatable(M, {
 	__index = function(t, k)
-		if LazyUtil[k] then
-			return LazyUtil[k]
+		if lazyutil[k] then
+			return lazyutil[k]
 		end
 		if k == "lazygit" or k == "toggle" then -- HACK: special case for lazygit
 			return M.deprecated[k]()
@@ -50,35 +36,6 @@ function M.has(plugin)
 	return M.get_plugin(plugin) ~= nil
 end
 
---- Checks if the extras is enabled:
---- * If the module was imported
---- * If the module was added by LazyExtras
---- * If the module is in the user's lazy imports
----@param extra string
-function M.has_extra(extra)
-	local Config = require("zim.config")
-	local modname = "zim.plugins.extras." .. extra
-	local LazyConfig = require("lazy.core.config")
-	-- check if it was imported already
-	if vim.tbl_contains(LazyConfig.spec.modules, modname) then
-		return true
-	end
-	-- check if it was added by LazyExtras
-	if vim.tbl_contains(Config.json.data.extras, modname) then
-		return true
-	end
-	-- check if it's in the imports
-	local spec = LazyConfig.options.spec
-	if type(spec) == "table" then
-		for _, s in ipairs(spec) do
-			if type(s) == "table" and s.import == modname then
-				return true
-			end
-		end
-	end
-	return false
-end
-
 ---@param fn fun()
 function M.on_very_lazy(fn)
 	vim.api.nvim_create_autocmd("User", {
@@ -89,9 +46,8 @@ function M.on_very_lazy(fn)
 	})
 end
 
---- This extends a deeply nested list with a key in a table
---- that is a dot-separated string.
---- The nested list will be created if it does not exist.
+--- extends a deeply nested list with a dot-separated string key if the nested
+--- list does not exist
 ---@generic T
 ---@param t T[]
 ---@param key string
@@ -116,55 +72,49 @@ function M.opts(name)
 	if not plugin then
 		return {}
 	end
-	local Plugin = require("lazy.core.plugin")
-	return Plugin.values(plugin, "opts", false)
+	local lazyplugin = require("lazy.core.plugin")
+	return lazyplugin.values(plugin, "opts", false)
 end
 
-function M.deprecate(old, new)
-	M.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), {
-		title = "Zim",
-		once = true,
-		stacktrace = true,
-		stacklevel = 6,
-	})
-end
-
--- delay notifications till vim.notify was replaced or after 500ms
+-- check-set replacing vim.notify with a delayed notify, gives up after 500ms
 function M.lazy_notify()
-	local notifs = {}
-	local function temp(...)
-		table.insert(notifs, vim.F.pack_len(...))
+	local notifications = {}
+	local function temporary_notify(...)
+		table.insert(notifications, vim.F.pack_len(...))
 	end
-	local orig = vim.notify
-	vim.notify = temp
+	local original_notify = vim.notify
+	vim.notify = temporary_notify
 	local timer = vim.uv.new_timer()
 	local check = assert(vim.uv.new_check())
+	-- replays capture notifications even if vim.notify replacement takes too long
 	local replay = function()
-		timer:stop()
+		if timer ~= nil then
+			timer:stop()
+		end
 		check:stop()
-		if vim.notify == temp then
-			vim.notify = orig -- put back the original notify if needed
+		if vim.notify == temporary_notify then
+			vim.notify = original_notify
 		end
 		vim.schedule(function()
-			---@diagnostic disable-next-line: no-unknown
-			for _, notif in ipairs(notifs) do
-				vim.notify(vim.F.unpack_len(notif))
+			for _, n in ipairs(notifications) do
+				vim.notify(vim.F.unpack_len(n))
 			end
 		end)
 	end
-	-- wait till vim.notify has been replaced
 	check:start(function()
-		if vim.notify ~= temp then
+		if vim.notify ~= temporary_notify then
 			replay()
 		end
 	end)
-	-- or if it took more than 500ms, then something went wrong
-	timer:start(500, 0, replay)
+	-- after 500 ms, something has gone wrong
+	if timer ~= nil then
+		timer:start(500, 0, replay)
+	end
 end
 
 function M.is_loaded(name)
-	local Config = require("lazy.core.config")
-	return Config.plugins[name] and Config.plugins[name]._.loaded
+	local cfg = require("lazy.core.config")
+	return cfg.plugins[name] and cfg.plugins[name]._.loaded
 end
 
 ---@param name string
@@ -185,83 +135,37 @@ function M.on_load(name, fn)
 	end
 end
 
--- Wrapper around vim.keymap.set that will
--- not create a keymap if a lazy key handler exists.
--- It will also set `silent` to true by default.
+-- silently sets a keymap unless the key handler already exists in lazy
 function M.safe_keymap_set(mode, lhs, rhs, opts)
 	local keys = require("lazy.core.handler").handlers.keys
-	---@cast keys LazyKeysHandler
 	local modes = type(mode) == "string" and { mode } or mode
-
-	---@param m string
 	modes = vim.tbl_filter(function(m)
+		---@cast keys LazyKeysHandler
 		return not (keys.have and keys:have(lhs, m))
 	end, modes)
-
-	-- do not create the keymap if a lazy keys handler exists
+	-- do not create the keymap if a lazy key handler already exists for that key
 	if #modes > 0 then
 		opts = opts or {}
 		opts.silent = opts.silent ~= false
 		if opts.remap and not vim.g.vscode then
-			---@diagnostic disable-next-line: no-unknown
 			opts.remap = nil
 		end
 		vim.keymap.set(modes, lhs, rhs, opts)
 	end
 end
 
----@generic T
----@param list T[]
----@return T[]
-function M.dedup(list)
-	local ret = {}
-	local seen = {}
-	for _, v in ipairs(list) do
-		if not seen[v] then
-			table.insert(ret, v)
-			seen[v] = true
-		end
-	end
-	return ret
-end
-
-M.CREATE_UNDO = vim.api.nvim_replace_termcodes("<c-G>u", true, true, true)
 function M.create_undo()
 	if vim.api.nvim_get_mode().mode == "i" then
-		vim.api.nvim_feedkeys(M.CREATE_UNDO, "n", false)
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-G>u", true, true, true), "n", false)
 	end
 end
 
---- Gets a path to a package in the Mason registry.
---- Prefer this to `get_package`, since the package might not always be
---- available yet and trigger errors.
----@param pkg string
----@param path? string
----@param opts? { warn?: boolean }
-function M.get_pkg_path(pkg, path, opts)
-	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
-	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-	opts = opts or {}
-	opts.warn = opts.warn == nil and true or opts.warn
-	path = path or ""
-	local ret = root .. "/packages/" .. pkg .. "/" .. path
-	if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
-		M.warn(
-			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
-				pkg,
-				path
-			)
-		)
-	end
-	return ret
-end
-
---- Override the default title for notifications.
+--- override the default title for notifications.
 for _, level in ipairs({ "info", "warn", "error" }) do
 	M[level] = function(msg, opts)
 		opts = opts or {}
 		opts.title = opts.title or "Zim"
-		return LazyUtil[level](msg, opts)
+		return lazyutil[level](msg, opts)
 	end
 end
 

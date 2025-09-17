@@ -1,10 +1,14 @@
-return {
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        prismals = {},
-      },
-    },
-  },
-}
+local M = {}
+
+function M.servers()
+  return {
+    prismals = {}
+  }
+end
+
+function M.setup()
+  return {}
+end
+
+return M
+

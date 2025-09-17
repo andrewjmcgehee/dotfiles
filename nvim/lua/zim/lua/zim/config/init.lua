@@ -1,11 +1,9 @@
-_G.Zim = require("zim.util")
+_G.Zim = require("zim.lua.zim.util")
 
----@class ZimConfig: ZimOptions
 local M = {}
 
 Zim.config = M
 
----@class ZimOptions
 local defaults = {
   -- icons used by other plugins
   -- stylua: ignore
@@ -115,11 +113,9 @@ local defaults = {
 	},
 }
 
----@type ZimOptions
 local options
 local lazy_clipboard
 
----@param opts? ZimOptions
 function M.setup(opts)
 	options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 	-- autocmds can be loaded lazily when not opening a file
@@ -163,14 +159,14 @@ function M.setup(opts)
 					end
 				end
 			end
-			local zim_plugins = find("^zim%.plugins$")
-			local extras = find("^zim%.plugins%.extras%.", true) or zim_plugins
+			local zim_plugins = find("^zim%.lua%.zim%.plugins$")
+			local extras = find("^zim%.lua%.zim%.plugins%.extras%.", true) or zim_plugins
 			local plugins = find("^plugins$") or math.huge
 			if zim_plugins ~= 1 or extras > plugins then
 				local msg = {
 					"The order of your `lazy.nvim` imports is incorrect:",
-					"- `zim.plugins` should be first",
-					"- followed by any `zim.plugins.extras`",
+					"- `zim.lua.zim.plugins` should be first",
+					"- followed by any `zim.lua.zim.plugins.extras`",
 					"- and finally your own `plugins`",
 					"",
 					"If you think you know what you're doing, you can disable this check with:",
@@ -206,7 +202,7 @@ end
 ---@param name "autocmds" | "options" | "keymaps"
 function M.load(name)
 	local pattern = "Zim" .. name:sub(1, 1):upper() .. name:sub(2)
-	local module = "zim.config." .. name
+	local module = "zim.lua.zim.config." .. name
 	if require("lazy.core.cache").find(module)[1] then
 		Zim.try(function()
 			require(module)
@@ -230,13 +226,13 @@ function M.init()
 		vim.opt.rtp:append(plugin.dir)
 	end
 
-	-- package.preload["zim.plugins.lsp.format"] = function()
-	-- 	Zim.deprecate([[require("zim.plugins.lsp.format")]], [[Zim.format]])
-	-- 	return Zim.format
-	-- end
+	package.preload["zim.lua.zim.plugins.lsp.format"] = function()
+		Zim.deprecate([[require("zim.plugins.lsp.format")]], [[Zim.format]])
+		return Zim.format
+	end
 
 	-- delay notifications till vim.notify was replaced or after 500ms
-	-- Zim.lazy_notify()
+	Zim.lazy_notify()
 
 	-- load options here, before lazy init while sourcing plugin modules
 	-- this is needed to make sure options will be correctly applied
@@ -309,7 +305,6 @@ setmetatable(M, {
 		if options == nil then
 			return vim.deepcopy(defaults)[key]
 		end
-		---@cast options ZimConfig
 		return options[key]
 	end,
 })
