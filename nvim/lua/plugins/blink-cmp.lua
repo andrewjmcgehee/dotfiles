@@ -1,3 +1,5 @@
+local config = require("config")
+
 return {
 	{
 		"saghen/blink.cmp",
@@ -129,8 +131,7 @@ return {
 			-- 	end
 			-- end
 			opts.appearance = opts.appearance or {}
-			opts.appearance.kind_icons =
-				vim.tbl_extend("force", opts.appearance.kind_icons or {}, Zim.config.icons.kinds)
+			opts.appearance.kind_icons = vim.tbl_extend("force", opts.appearance.kind_icons or {}, config.icons.kinds)
 			require("blink.cmp").setup(opts)
 		end,
 	},

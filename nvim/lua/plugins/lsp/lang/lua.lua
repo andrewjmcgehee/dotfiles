@@ -15,7 +15,7 @@ function M.servers()
 						callSnippet = "Replace",
 					},
 					diagnostics = {
-						globals = { "vim", "Zim" },
+						globals = { "vim" },
 					},
 					doc = {
 						privateName = { "^_" },

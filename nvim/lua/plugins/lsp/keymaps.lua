@@ -1,4 +1,5 @@
 -- TODO: figure out lsp errors and revisit after snacks
+local util = require("util")
 
 local M = {}
 
@@ -79,7 +80,7 @@ function M.has(buffer, method)
 		return false
 	end
 	method = method:find("/") and method or "textDocument/" .. method
-	local clients = Zim.lsp.get_clients({ bufnr = buffer })
+	local clients = util.lsp.get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		if client.supports_method(method) then
 			return true
@@ -95,8 +96,8 @@ function M.resolve(buffer)
 		return {}
 	end
 	local spec = vim.tbl_extend("force", {}, M.get())
-	local opts = Zim.opts("nvim-lspconfig")
-	local clients = Zim.lsp.get_clients({ bufnr = buffer })
+	local opts = util.opts("nvim-lspconfig")
+	local clients = util.lsp.get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
 		vim.list_extend(spec, maps)

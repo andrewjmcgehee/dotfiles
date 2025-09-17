@@ -1,3 +1,4 @@
+local util = require("util")
 -- TODO: revisit to prune unnecessary
 
 ---@class zim.util.lsp
@@ -168,10 +169,10 @@ function M.formatter(opts)
 		primary = true,
 		priority = 1,
 		format = function(buf)
-			M.format(Zim.merge({}, filter, { bufnr = buf }))
+			M.format(util.merge({}, filter, { bufnr = buf }))
 		end,
 		sources = function(buf)
-			local clients = M.get_clients(Zim.merge({}, filter, { bufnr = buf }))
+			local clients = M.get_clients(util.merge({}, filter, { bufnr = buf }))
 			---@param client vim.lsp.Client
 			local ret = vim.tbl_filter(function(client)
 				return client.supports_method("textDocument/formatting")
@@ -183,7 +184,7 @@ function M.formatter(opts)
 			end, ret)
 		end,
 	}
-	return Zim.merge(ret, opts) --[[@as LazyFormatter]]
+	return util.merge(ret, opts) --[[@as LazyFormatter]]
 end
 
 ---@alias lsp.Client.format {timeout_ms?: number, format_options?: table} | lsp.Client.filter
@@ -194,8 +195,8 @@ function M.format(opts)
 		"force",
 		{},
 		opts or {},
-		Zim.opts("nvim-lspconfig").format or {},
-		Zim.opts("conform.nvim").format or {}
+		util.opts("nvim-lspconfig").format or {},
+		util.opts("conform.nvim").format or {}
 	)
 	local ok, conform = pcall(require, "conform")
 	-- use conform for formatting with LSP when available,

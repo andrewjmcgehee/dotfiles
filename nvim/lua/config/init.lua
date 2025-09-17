@@ -1,8 +1,27 @@
-_G.Zim = require("zim.lua.zim.util")
+local util = require("util")
 
 local M = {}
 
-Zim.config = M
+function M.is_loaded(name)
+	local cfg = require("lazy.core.config")
+	return cfg.plugins[name] and cfg.plugins[name]._.loaded
+end
+
+function M.on_load(name, fn)
+	if M.is_loaded(name) then
+		fn(name)
+	else
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "LazyLoad",
+			callback = function(event)
+				if event.data == name then
+					fn(name)
+					return true
+				end
+			end,
+		})
+	end
+end
 
 local defaults = {
   -- icons used by other plugins
@@ -150,32 +169,6 @@ function M.setup(opts)
 				"desc",
 				"vscode",
 			})
-			-- TODO: remove this check order once we are certain its stable
-			local imports = require("lazy.core.config").spec.modules
-			local function find(pat, last)
-				for i = last and #imports or 1, last and 1 or #imports, last and -1 or 1 do
-					if imports[i]:find(pat) then
-						return i
-					end
-				end
-			end
-			local zim_plugins = find("^zim%.lua%.zim%.plugins$")
-			local extras = find("^zim%.lua%.zim%.plugins%.extras%.", true) or zim_plugins
-			local plugins = find("^plugins$") or math.huge
-			if zim_plugins ~= 1 or extras > plugins then
-				local msg = {
-					"The order of your `lazy.nvim` imports is incorrect:",
-					"- `zim.lua.zim.plugins` should be first",
-					"- followed by any `zim.lua.zim.plugins.extras`",
-					"- and finally your own `plugins`",
-					"",
-					"If you think you know what you're doing, you can disable this check with:",
-					"```lua",
-					"vim.g.zim_check_order = false",
-					"```",
-				}
-				vim.notify(table.concat(msg, "\n"), "warn", { title = "Zim" })
-			end
 		end,
 	})
 	vim.cmd.colorscheme("tokyonight")
@@ -201,16 +194,16 @@ end
 
 ---@param name "autocmds" | "options" | "keymaps"
 function M.load(name)
-	local pattern = "Zim" .. name:sub(1, 1):upper() .. name:sub(2)
-	local module = "zim.lua.zim.config." .. name
+	local pattern = name:sub(1, 1):upper() .. name:sub(2)
+	local module = "config." .. name
 	if require("lazy.core.cache").find(module)[1] then
-		Zim.try(function()
+		util.try(function()
 			require(module)
 		end, { msg = "failed loading " .. module })
 	end
 	vim.api.nvim_exec_autocmds("User", { pattern = pattern, modeline = false })
 	if vim.bo.filetype == "lazy" then
-		-- HACK: Zim may have overwritten options of the Lazy ui, so reset this here
+		-- HACK: we may have overwritten options of the Lazy ui, so reset this here
 		vim.cmd([[do VimResized]])
 	end
 end
@@ -221,19 +214,8 @@ function M.init()
 		return
 	end
 	M.init_once = true
-	local plugin = require("lazy.core.config").spec.plugins.zim
-	if plugin then
-		vim.opt.rtp:append(plugin.dir)
-	end
-
-	package.preload["zim.lua.zim.plugins.lsp.format"] = function()
-		Zim.deprecate([[require("zim.plugins.lsp.format")]], [[Zim.format]])
-		return Zim.format
-	end
-
 	-- delay notifications till vim.notify was replaced or after 500ms
-	Zim.lazy_notify()
-
+	util.lazy_notify()
 	-- load options here, before lazy init while sourcing plugin modules
 	-- this is needed to make sure options will be correctly applied
 	-- after installing missing plugins
@@ -241,7 +223,11 @@ function M.init()
 	-- defer built-in clipboard handling: "xsel" and "pbcopy" can be slow
 	lazy_clipboard = vim.opt.clipboard
 	vim.opt.clipboard = ""
-	Zim.plugin.setup()
+	-- add support for the LazyFile event
+	local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
+	local evt = require("lazy.core.handler.event")
+	evt.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
+	evt.mappings["User LazyFile"] = evt.mappings.LazyFile
 end
 
 ------@alias ZimDefault {name: string, extra: string, enabled?: boolean, origin?: "global" | "default" | "extra" }

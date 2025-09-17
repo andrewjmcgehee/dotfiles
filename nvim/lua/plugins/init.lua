@@ -1,4 +1,6 @@
-require("zim.lua.zim.config").init()
+require("config").init()
+
+local util = require("util")
 
 return {
 	{ "folke/lazy.nvim", version = "*" },
@@ -11,7 +13,7 @@ return {
 		version = "*",
 		config = function(opts)
 			vim.uv = vim.uv or vim.loop
-			require("zim.lua.zim.config").setup(opts)
+			require("config").setup(opts)
 		end,
 	},
 	{
@@ -21,11 +23,17 @@ return {
 		opts = { explorer = { enabled = true } },
 		keys = {
 			{
-				"<leader>e", function() Snacks.explorer({ cwd = LazyVim.root() }) end,
+				"<leader>e",
+				function()
+					Snacks.explorer({ cwd = util.root() })
+				end,
 				desc = "Explorer Root",
 			},
 			{
-				"<leader>E", function() Snacks.explorer() end,
+				"<leader>E",
+				function()
+					Snacks.explorer()
+				end,
 				desc = "Explorer CWD",
 			},
 		},

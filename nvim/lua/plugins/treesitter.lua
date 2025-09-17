@@ -1,3 +1,5 @@
+local util = require("util")
+
 return {
 	-- {
 	--   "folke/which-key.nvim",
@@ -112,8 +114,8 @@ return {
 		enabled = true,
 		config = function()
 			-- if treesitter is already loaded, we need to run config again for textobjects
-			if Zim.is_loaded("nvim-treesitter") then
-				local opts = Zim.opts("nvim-treesitter")
+			if util.is_loaded("nvim-treesitter") then
+				local opts = util.opts("nvim-treesitter")
 				require("nvim-treesitter.configs").setup({ textobjects = opts.textobjects })
 			end
 			-- when in diff mode, we want to use the default vim text objects c & c
