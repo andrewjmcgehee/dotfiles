@@ -1,3 +1,5 @@
+local util = require("util")
+
 local function buffer(ai_type)
 	local start_line, end_line = 1, vim.fn.line("$")
 	if ai_type == "i" then
@@ -102,7 +104,7 @@ return {
 		end,
 		config = function(_, opts)
 			require("mini.ai").setup(opts)
-			require("config").on_load("which-key.nvim", function()
+			util.on_load("which-key.nvim", function()
 				vim.schedule(function()
 					whichkey(opts)
 				end)

@@ -1,4 +1,4 @@
-local config = require("config")
+local icons = require("util.icons")
 local util = require("util")
 local lang = require("plugins.lsp.lang")
 
@@ -19,10 +19,10 @@ return {
 				severity_sort = true,
 				signs = {
 					text = {
-						[vim.diagnostic.severity.ERROR] = config.icons.diagnostics.Error,
-						[vim.diagnostic.severity.WARN] = config.icons.diagnostics.Warn,
-						[vim.diagnostic.severity.HINT] = config.icons.diagnostics.Hint,
-						[vim.diagnostic.severity.INFO] = config.icons.diagnostics.Info,
+						[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+						[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+						[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
 					},
 				},
 			},
@@ -43,7 +43,6 @@ return {
 			servers = lang.servers,
 			setup = lang.setup,
 		},
-		---@param opts PluginLspOpts
 		config = function(_, opts)
 			-- setup autoformat
 			-- Zim.format.register(Zim.lsp.formatter())

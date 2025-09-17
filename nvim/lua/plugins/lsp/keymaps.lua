@@ -3,13 +3,8 @@ local util = require("util")
 
 local M = {}
 
----@type LazyKeysLspSpec[]|nil
 M._keys = nil
 
----@alias LazyKeysLspSpec LazyKeysSpec|{has?:string|string[], cond?:fun():boolean}
----@alias LazyKeysLsp LazyKeys|{has?:string|string[], cond?:fun():boolean}
-
----@return LazyKeysLspSpec[]
 function M.get()
 	if M._keys then
 		return M._keys
@@ -89,7 +84,6 @@ function M.has(buffer, method)
 	return false
 end
 
----@return LazyKeysLsp[]
 function M.resolve(buffer)
 	local Keys = require("lazy.core.handler.keys")
 	if not Keys.resolve then

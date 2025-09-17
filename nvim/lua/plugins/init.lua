@@ -37,14 +37,12 @@ return {
 				desc = "Explorer CWD",
 			},
 		},
-		-- config = function(_, opts)
-		-- 	local notify = vim.notify
-		-- 	require("snacks").setup(opts)
-		-- 	-- HACK: restore vim.notify after snacks setup and let noice.nvim take over
-		-- 	-- this is needed to have early notifications show up in noice history
-		-- 	if Zim.has("noice.nvim") then
-		-- 		vim.notify = notify
-		-- 	end
-		-- end,
+		config = function(_, opts)
+			local notify = vim.notify
+			require("snacks").setup(opts)
+			-- HACK: restore vim.notify after snacks setup and let noice.nvim take over
+			-- this is needed to have early notifications show up in noice history
+			vim.notify = notify
+		end,
 	},
 }

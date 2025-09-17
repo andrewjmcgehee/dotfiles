@@ -3,7 +3,6 @@ local function map(mode, lhs, rhs, opts)
 	local keys = require("lazy.core.handler").handlers.keys
 	local modes = type(mode) == "string" and { mode } or mode
 	modes = vim.tbl_filter(function(m)
-		---@cast keys LazyKeysHandler
 		return not (keys.have and keys:have(lhs, m))
 	end, modes)
 	-- do not create the keymap if a lazy key handler already exists for that key
