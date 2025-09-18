@@ -6,50 +6,43 @@ local warn = vim.health.warn or vim.health.report_warn
 local error = vim.health.error or vim.health.report_error
 
 local ensure_installed = {
-  "git",
-  "rg",
-  { "fd", "fdfind" },
-  "lazygit",
-  "fzf",
+  --tools
   "curl",
-  -- docker
-  "docker-langserver",
-  "hadolint",
-  -- docker compose
+  { "fd", "fdfind" },
+  "fzf",
+  "git",
+  "lazygit",
+  "packer",
+  "rg",
+  "terraform",
+  "tree-sitter",
+  -- lsp
+  "basedpyright",
   "docker-compose-langserver",
-  -- go
+  "docker-langserver",
   "gopls",
+  "lua-language-server",
+  "marksman",
+  "prisma-language-server",
+  "tailwindcss-language-server",
+  "terraform-ls",
+  "yaml-language-server",
+  -- linters and formatters
+  "dockerfmt",
+  "gofumpt",
   "goimports",
   "golines",
-  "gofumpt",
   "gosec",
-  "staticcheck",
-  "revive",
-  -- lua
-  "lua-language-server",
-  "stylua",
-  -- markdown
-  "marksman",
+  "hadolint",
   "markdownlint-cli2",
   "markdown-toc",
-  -- prisma
-  "prisma-language-server",
-  -- python
-  "basedpyright",
+  "revive",
   "ruff",
-  -- sh
   "shfmt",
-  -- sql
   "sqlfluff",
-  -- tailwind
-  "tailwindcss-language-server",
-  -- terraform
-  "terraform-ls",
+  "staticcheck",
+  "stylua",
   "tflint",
-  -- tree-sitter
-  "tree-sitter",
-  -- yaml
-  "yaml-language-server"
 }
 
 function M.check()

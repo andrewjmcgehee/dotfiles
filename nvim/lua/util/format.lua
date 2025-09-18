@@ -159,40 +159,18 @@ end
 
 function M.setup()
   M.health()
-
-  -- Autoformat autocmd
   vim.api.nvim_create_autocmd("BufWritePre", {
-    group = vim.api.nvim_create_augroup("LazyFormat", {}),
+    group = vim.api.nvim_create_augroup("Format", {}),
     callback = function(event)
       M.format({ buf = event.buf })
     end,
   })
-
-  -- Manual format
-  vim.api.nvim_create_user_command("LazyFormat", function()
+  vim.api.nvim_create_user_command("Format", function()
     M.format({ force = true })
   end, { desc = "Format selection or buffer" })
-
-  -- Format info
-  vim.api.nvim_create_user_command("LazyFormatInfo", function()
+  vim.api.nvim_create_user_command("FormatInfo", function()
     M.info()
   end, { desc = "Show info about the formatters for the current buffer" })
-end
-
----@param buf? boolean
-function M.snacks_toggle(buf)
-  return Snacks.toggle({
-    name = "Auto Format (" .. (buf and "Buffer" or "Global") .. ")",
-    get = function()
-      if not buf then
-        return vim.g.autoformat == nil or vim.g.autoformat
-      end
-      return util.format.enabled()
-    end,
-    set = function(state)
-      util.format.enable(state, buf)
-    end,
-  })
 end
 
 return M
