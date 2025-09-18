@@ -5,6 +5,53 @@ local ok = vim.health.ok or vim.health.report_ok
 local warn = vim.health.warn or vim.health.report_warn
 local error = vim.health.error or vim.health.report_error
 
+local ensure_installed = {
+  "git",
+  "rg",
+  { "fd", "fdfind" },
+  "lazygit",
+  "fzf",
+  "curl",
+  -- docker
+  "docker-langserver",
+  "hadolint",
+  -- docker compose
+  "docker-compose-langserver",
+  -- go
+  "gopls",
+  "goimports",
+  "golines",
+  "gofumpt",
+  "gosec",
+  "staticcheck",
+  "revive",
+  -- lua
+  "lua-language-server",
+  "stylua",
+  -- markdown
+  "marksman",
+  "markdownlint-cli2",
+  "markdown-toc",
+  -- prisma
+  "prisma-language-server",
+  -- python
+  "basedpyright",
+  "ruff",
+  -- sh
+  "shfmt",
+  -- sql
+  "sqlfluff",
+  -- tailwind
+  "tailwindcss-language-server",
+  -- terraform
+  "terraform-ls",
+  "tflint",
+  -- tree-sitter
+  "tree-sitter",
+  -- yaml
+  "yaml-language-server"
+}
+
 function M.check()
   start("Zim")
   if vim.fn.has("nvim-0.11.2") == 1 then
@@ -12,7 +59,7 @@ function M.check()
   else
     error("Neovim >= 0.11.2 is required")
   end
-  for _, cmd in ipairs({ "git", "rg", { "fd", "fdfind" }, "lazygit", "fzf", "curl" }) do
+  for _, cmd in ipairs(ensure_installed) do
     local name = type(cmd) == "string" and cmd or vim.inspect(cmd)
     local commands = type(cmd) == "string" and { cmd } or cmd
     ---@cast commands string[]

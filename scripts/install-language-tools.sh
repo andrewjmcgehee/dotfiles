@@ -36,9 +36,9 @@ fi
 echo "📦 installing docker tools"
 brew install dockerfile-language-server &>/dev/null
 if [[ $? -eq 0 ]]; then
-  echo "  ✅ installed dockerfile-language-server"
+  echo "  ✅ installed docker-langserver"
 else
-  echo "  🚨 failed to install dockerfile-language-server"
+  echo "  🚨 failed to install docker-langserver"
 fi
 brew install hadolint &>/dev/null
 if [[ $? -eq 0 ]]; then
