@@ -13,10 +13,9 @@ end
 function M.setup()
 	return {
 		tailwindcss = function(_, opts)
-			local tw = util.lsp.get_raw_config("tailwindcss")
 			opts.filetypes = opts.filetypes or {}
 			-- add default file types
-			vim.list_extend(opts.filetypes, tw.default_config.filetypes)
+			vim.list_extend(opts.filetypes, vim.lsp.config.tailwindcss.filetypes)
 			-- exclude user file types
 			opts.filetypes = vim.tbl_filter(function(ft)
 				return not vim.tbl_contains(opts.filetypes_exclude or {}, ft)

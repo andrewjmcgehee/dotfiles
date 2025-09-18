@@ -101,6 +101,21 @@ else
   echo "  🚨 failed to install revive"
 fi
 
+# lua
+echo "📦 installing lua tools"
+brew install lua-language-server &>/dev/null
+if [[ $? -eq 0 ]]; then
+  echo "  ✅ installed lua-language-server"
+else
+  echo "  🚨 failed to install lua-language-server"
+fi
+brew install stylua &>/dev/null
+if [[ $? -eq 0 ]]; then
+  echo "  ✅ installed stylua"
+else
+  echo "  🚨 failed to install stylua"
+fi
+
 # markdown
 echo "📦 installing markdown tools"
 brew install marksman &>/dev/null
@@ -186,6 +201,15 @@ if [[ $? -eq 0 ]]; then
   echo "  ✅ installed tflint"
 else
   echo "  🚨 failed to install tflint"
+fi
+
+# tree-sitter
+echo "📦 installing nvim tools"
+brew install tree-sitter-cli &>/dev/null
+if [[ $? -eq 0 ]]; then
+  echo "  ✅ installed tree-sitter"
+else
+  echo "  🚨 failed to install tree-sitter"
 fi
 
 # yaml

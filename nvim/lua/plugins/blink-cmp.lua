@@ -9,7 +9,7 @@ return {
     "sources.default",
   },
   dependencies = { "rafamadriz/friendly-snippets" },
-  event = "InsertEnter",
+  event = { "InsertEnter", "CmdlineEnter" },
   opts = {
     appearance = { nerd_font_variant = "mono" },
     cmdline = {
@@ -73,11 +73,12 @@ return {
     fuzzy = { implementation = "prefer_rust" },
     keymap = {
       preset = "none",
+      ["<right>"] = { "accept", "snippet_forward", "fallback" },
+      ["<left>"] = { "hide", "fallback" },
       ["<tab>"] = { "accept", "snippet_forward", "fallback" },
       ["<s-tab>"] = { "snippet_backward", "fallback" },
       ["<up>"] = { "select_prev", "fallback" },
       ["<down>"] = { "select_next", "fallback" },
-      ["<left>"] = { "hide", "fallback" },
     },
     signature = { enabled = true },
     snippets = {
