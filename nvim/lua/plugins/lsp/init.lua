@@ -45,8 +45,6 @@ return {
       setup = lang.setup,
     },
     config = function(_, opts)
-      -- setup autoformat
-      util.format.register(util.lsp.formatter())
       -- setup keymaps
       util.lsp.on_attach(function(client, buffer)
         require("plugins.lsp.keymaps").on_attach(client, buffer)
