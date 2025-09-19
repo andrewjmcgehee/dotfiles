@@ -7,6 +7,7 @@ end
 -- format on save and run code actions
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
+  group = augroup("autoformat"),
   callback = function(args)
     require("conform").format({ bufnr = args.buf })
     local buf = vim.api.nvim_get_current_buf()
@@ -143,7 +144,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 -- more intuitive netrw experience
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("netrw-keymaps", { clear = true }),
+  group = augroup("netrw_remaps"),
   pattern = "netrw",
   callback = function(opts)
     vim.api.nvim_buf_set_keymap(opts.buf, "n", "<left>", "-^", {})
@@ -153,6 +154,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- TODO: maybe move this to its own module?
+--
 -- video recorder
 local record_path = vim.fn.expand("~/Movies/")
 local function start_record()
