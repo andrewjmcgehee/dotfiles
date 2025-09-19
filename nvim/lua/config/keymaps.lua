@@ -1,19 +1,20 @@
 -- silently sets a keymap unless the key handler already exists in lazy
 local function map(mode, lhs, rhs, opts)
-	local keys = require("lazy.core.handler").handlers.keys
-	local modes = type(mode) == "string" and { mode } or mode
-	modes = vim.tbl_filter(function(m)
-		return not (keys.have and keys:have(lhs, m))
-	end, modes)
-	-- do not create the keymap if a lazy key handler already exists for that key
-	if #modes > 0 then
-		opts = opts or {}
-		opts.silent = opts.silent ~= false
-		if opts.remap and not vim.g.vscode then
-			opts.remap = nil
-		end
-		vim.keymap.set(modes, lhs, rhs, opts)
-	end
+  local keys = require("lazy.core.handler").handlers.keys
+  local modes = type(mode) == "string" and { mode } or mode
+  modes = vim.tbl_filter(function(m)
+    ---@diagnostic disable-next-line
+    return not (keys.have and keys:have(lhs, m))
+  end, modes)
+  -- do not create the keymap if a lazy key handler already exists for that key
+  if #modes > 0 then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    if opts.remap and not vim.g.vscode then
+      opts.remap = nil
+    end
+    vim.keymap.set(modes, lhs, rhs, opts)
+  end
 end
 
 -- better up/down
@@ -39,9 +40,9 @@ map("n", "-", vim.cmd.Explore, { desc = "Explore File Parent" })
 
 -- clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-	vim.cmd("noh")
-	-- Zim.cmp.actions.snippet_stop()
-	return "<esc>"
+  vim.cmd("noh")
+  -- Zim.cmp.actions.snippet_stop()
+  return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
@@ -70,33 +71,33 @@ map("n", "<leader>l", "<cmd>Lazy<enter>", { desc = "Lazy" })
 
 -- location list
 map("n", "<leader>xl", function()
-	local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-	if not success and err then
-		vim.notify(err, vim.log.levels.ERROR)
-	end
+  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
 end, { desc = "Location List" })
 
 -- quickfix list
 map("n", "<leader>xq", function()
-	local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-	if not success and err then
-		vim.notify(err, vim.log.levels.ERROR)
-	end
+  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
 end, { desc = "Quickfix List" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- formatting
 map({ "n", "v" }, "<leader>cf", function()
-	-- Zim.format({ force = true })
+  -- Zim.format({ force = true })
 end, { desc = "Format" })
 
 -- diagnostics
 local diagnostic_goto = function(count, severity)
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		vim.diagnostic.jump({ count = count, severity = severity, float = true })
-	end
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    vim.diagnostic.jump({ count = count, severity = severity, float = true })
+  end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(1), { desc = "Next Diagnostic" })
@@ -129,8 +130,8 @@ map("n", "<leader>q", "<cmd>qa<enter>", { desc = "Quit All" })
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 map("n", "<leader>uI", function()
-	vim.treesitter.inspect_tree()
-	vim.api.nvim_input("I")
+  vim.treesitter.inspect_tree()
+  vim.api.nvim_input("I")
 end, { desc = "Inspect Tree" })
 
 -- explore
@@ -145,14 +146,14 @@ map("n", "<leader>v", vim.cmd.Vexplore, { desc = "Split Window Left", remap = tr
 
 -- search and replace current word under cursor
 map("n", "<leader>s", function()
-	vim.cmd([[norm! yiw]])
-	local word = vim.fn.getreg('"')
-	if word ~= "" then
-		local guarded = "\\<" .. word .. "\\>"
-		local cmd = string.format(":%%s/%s/%s/gc", guarded, word)
-		vim.fn.feedkeys(cmd)
-		vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<left><left><left>", true, false, true))
-	end
+  vim.cmd([[norm! yiw]])
+  local word = vim.fn.getreg('"')
+  if word ~= "" then
+    local guarded = "\\<" .. word .. "\\>"
+    local cmd = string.format(":%%s/%s/%s/gc", guarded, word)
+    vim.fn.feedkeys(cmd)
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<left><left><left>", true, false, true))
+  end
 end, { desc = "Search and Replace Word" })
 
 -- search

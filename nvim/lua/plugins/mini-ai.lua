@@ -83,9 +83,9 @@ return {
           i = { "@block.inner", "@conditional.inner", "@loop.inner" },
         }),
         f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),    -- class
-        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },        -- tag
-        d = { "%f[%d]%d+" },                                                       -- digit
+        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tag
+        d = { "%f[%d]%d+" }, -- digit
         e = {
           {
             "%u[%l%d]+%f[^%l%d]",
@@ -96,7 +96,7 @@ return {
           "^().*()$",
         },
         g = buffer,
-        u = ai.gen_spec.function_call(),                        -- u for "usage"
+        u = ai.gen_spec.function_call(), -- u for "usage"
         U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
       },
     }

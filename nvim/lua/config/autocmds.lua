@@ -7,8 +7,8 @@ end
 -- format on save and run code actions
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
-  callback = function()
-    util.format({ force = true })
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
     local buf = vim.api.nvim_get_current_buf()
     local ft = vim.bo[buf].filetype
     if ft == "typescript" or ft == "typescriptreact" then

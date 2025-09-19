@@ -2,7 +2,7 @@ local M = {}
 
 function M.servers()
   return {
-    prismals = {}
+    prismals = {},
   }
 end
 
@@ -11,4 +11,3 @@ function M.setup()
 end
 
 return M
-

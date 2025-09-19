@@ -4,11 +4,11 @@ return {
   config = function(_, _)
     local pairs = require("mini.pairs")
     pairs.setup({ insert = true, command = true, terminal = false })
-    local open = pairs.open
-    pairs.open = function(pair, neigh_pattern)
+    local original_open = pairs.open
+    local modified_open = function(pair, neigh_pattern)
       -- normal behavior in command line
       if vim.fn.getcmdline() ~= "" then
-        return open(pair, neigh_pattern)
+        return original_open(pair, neigh_pattern)
       end
       local o, c = pair:sub(1, 1), pair:sub(2, 2)
       local line = vim.api.nvim_get_current_line()
@@ -40,7 +40,8 @@ return {
           return o
         end
       end
-      return open(pair, neigh_pattern)
+      return original_open(pair, neigh_pattern)
     end
+    pairs.open = modified_open
   end,
 }

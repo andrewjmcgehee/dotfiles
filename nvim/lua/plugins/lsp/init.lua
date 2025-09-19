@@ -1,6 +1,6 @@
 local icons = require("util.icons")
-local util = require("util")
 local lang = require("plugins.lsp.lang")
+local util = require("util")
 
 return {
   {
@@ -57,9 +57,9 @@ return {
       if opts.inlay_hints.enabled then
         util.lsp.on_supports_method("textDocument/inlayHint", function(_, buffer)
           if
-              vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+            vim.api.nvim_buf_is_valid(buffer)
+            and vim.bo[buffer].buftype == ""
+            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
           then
             vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
           end

@@ -2,7 +2,7 @@ local M = {}
 
 function M.servers()
   return {
-    terraformls = {}
+    terraformls = {},
   }
 end
 
