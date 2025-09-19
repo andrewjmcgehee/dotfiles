@@ -1,5 +1,5 @@
 local icons = require("util.icons")
-local lang = require("plugins.lsp.lang")
+local lang = require("lsp.lang")
 local util = require("util")
 
 return {
@@ -47,10 +47,10 @@ return {
     config = function(_, opts)
       -- setup keymaps
       util.lsp.on_attach(function(client, buffer)
-        require("plugins.lsp.keymaps").on_attach(client, buffer)
+        require("lsp.keymaps").on_attach(client, buffer)
       end)
       util.lsp.setup()
-      util.lsp.on_dynamic_capability(require("plugins.lsp.keymaps").on_attach)
+      util.lsp.on_dynamic_capability(require("lsp.keymaps").on_attach)
       -- inlay hints
       if opts.inlay_hints.enabled then
         util.lsp.on_supports_method("textDocument/inlayHint", function(_, buffer)

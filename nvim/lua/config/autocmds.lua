@@ -1,4 +1,4 @@
-local lsp = require("plugins.lsp")
+local lsp = require("lsp")
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("zim_" .. name, { clear = true })

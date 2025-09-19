@@ -16,7 +16,7 @@ M.servers = {}
 M.setup = {}
 
 for _, name in ipairs(M.langs) do
-  local lang = require("plugins.lsp.lang." .. name)
+  local lang = require("lsp.lang." .. name)
   for k, v in pairs(lang.servers()) do
     M.servers[k] = v
   end
