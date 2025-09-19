@@ -1,4 +1,4 @@
-local util = require("util")
+local lsp = require("lsp")
 
 local M = {}
 
@@ -13,7 +13,7 @@ function M.setup()
   return {
     ruff = function()
       -- prefer basedpyright hover functionality
-      util.lsp.on_attach(function(client, _)
+      lsp.on_attach(function(client, _)
         client.server_capabilities.hoverProvider = false
       end)
     end,

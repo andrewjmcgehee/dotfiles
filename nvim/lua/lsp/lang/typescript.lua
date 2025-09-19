@@ -1,12 +1,10 @@
-local util = require("util")
+local lsp = require("lsp")
 
 local M = {}
 
 function M.servers()
   return {
     vtsls = {
-      -- explicitly add default filetypes, so that we can extend
-      -- them in related extras
       filetypes = {
         "javascript",
         "javascriptreact",
@@ -46,11 +44,10 @@ function M.servers()
         {
           "gD",
           function()
-            local params = vim.lsp.util.make_position_params(0, "utf-8")
-            util.lsp.execute({
+            local params = vim.lsp.util.make_position_params(0, "utf-16")
+            lsp.trouble_open_command({
               command = "typescript.goToSourceDefinition",
               arguments = { params.textDocument.uri, params.position },
-              open = true,
             })
           end,
           desc = "Goto Source Definition",
@@ -58,39 +55,36 @@ function M.servers()
         {
           "gR",
           function()
-            util.lsp.execute({
+            lsp.trouble_open_command({
               command = "typescript.findAllFileReferences",
               arguments = { vim.uri_from_bufnr(0) },
-              open = true,
             })
           end,
           desc = "File References",
         },
         {
           "<leader>co",
-          util.lsp.action["source.organizeImports"],
+          lsp.action("source.organizeImports"),
           desc = "Organize Imports",
         },
         {
           "<leader>cM",
-          util.lsp.action["source.addMissingImports.ts"],
+          lsp.action("source.addMissingImports.ts"),
           desc = "Add missing imports",
         },
         {
           "<leader>cu",
-          util.lsp.action["source.removeUnused.ts"],
+          lsp.action("source.removeUnused.ts"),
           desc = "Remove unused imports",
         },
         {
           "<leader>cD",
-          util.lsp.action["source.fixAll.ts"],
+          lsp.action("source.fixAll.ts"),
           desc = "Fix all diagnostics",
         },
         {
           "<leader>cV",
-          function()
-            util.lsp.execute({ command = "typescript.selectTypeScriptVersion" })
-          end,
+          lsp.command({ command = "typescript.selectTypeScriptVersion" }),
           desc = "Select TS workspace version",
         },
       },
@@ -101,7 +95,7 @@ end
 function M.setup()
   return {
     vtsls = function(_, opts)
-      util.lsp.on_attach(function(client, _)
+      lsp.on_attach(function(client, _)
         client.commands["_typescript.moveToFileRefactoring"] = function(command, _)
           local action, uri, range = table.unpack(command.arguments)
           local function move(newf)

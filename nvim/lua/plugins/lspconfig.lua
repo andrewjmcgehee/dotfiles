@@ -1,5 +1,6 @@
 local icons = require("util.icons")
 local lang = require("lsp.lang")
+local lsp = require("lsp")
 local util = require("util")
 
 return {
@@ -46,7 +47,7 @@ return {
     },
     config = function(_, opts)
       -- setup keymaps
-      util.lsp.on_attach(function(client, buffer)
+      lsp.on_attach(function(client, buffer)
         require("lsp.keymaps").on_attach(client, buffer)
       end)
       util.lsp.setup()
@@ -82,9 +83,9 @@ return {
       end
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
       -- extend global capabilities
-      if opts.capabilities then
-        vim.lsp.config("*", { capabilities = opts.capabilities })
-      end
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+      vim.lsp.config("*", { capabilities = capabilities })
       local function configure(server)
         local server_opts = opts.servers[server] or {}
         local setup = opts.setup[server] or opts.setup["*"]
