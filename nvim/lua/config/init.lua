@@ -22,7 +22,6 @@ function M.setup(_)
       if lazy_clipboard ~= nil then
         vim.opt.clipboard = lazy_clipboard
       end
-      -- util.format.setup()
       -- Zim.root.setup()
       -- vim.api.nvim_create_user_command("ZimExtras", function()
       -- 	Zim.extras.show()
