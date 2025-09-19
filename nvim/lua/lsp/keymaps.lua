@@ -99,14 +99,25 @@ function M.resolve(buffer)
   return keys.resolve(spec)
 end
 
+local skip = { mode = true, id = true, ft = true, rhs = true, lhs = true }
+
+function M.opts(keys)
+  local opts = {}
+  for k, v in pairs(keys) do
+    if type(k) ~= "number" and not skip[k] then
+      opts[k] = v
+    end
+  end
+  return opts
+end
+
 function M.on_attach(_, buffer)
-  local Keys = require("lazy.core.handler.keys")
   local keymaps = M.resolve(buffer)
   for _, keys in pairs(keymaps) do
     local has = not keys.has or M.has(buffer, keys.has)
     local cond = not (keys.cond == false or ((type(keys.cond) == "function") and not keys.cond()))
     if has and cond then
-      local opts = Keys.opts(keys)
+      local opts = M.opts(keys)
       opts.cond = nil
       opts.has = nil
       opts.silent = opts.silent ~= false
