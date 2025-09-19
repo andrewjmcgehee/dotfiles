@@ -1,4 +1,4 @@
-local util = require("util")
+local lsp = require("plugins.lsp")
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("zim_" .. name, { clear = true })
@@ -13,9 +13,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     local ft = vim.bo[buf].filetype
     if ft == "typescript" or ft == "typescriptreact" then
       vim.schedule(function()
-        util.lsp.action["source.addMissingImports.ts"]()
-        util.lsp.action["source.organizeImports.ts"]()
-        util.lsp.action["source.removeUnused.ts"]()
+        lsp.execute_action("source.addMissingImports.ts")
+        lsp.execute_action("source.organizeImports.ts")
+        lsp.execute_action("source.removeUnused.ts")
       end)
     end
   end,
