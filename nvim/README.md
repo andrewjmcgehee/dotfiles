@@ -1,5 +1,4 @@
 ```sh
-```
 lua
 ├── config
 │   ├── autocmds.lua
@@ -115,5 +114,4 @@ lua
         ├── ui.lua
         ├── util.lua
         └── xtras.lua
-```
 ```
