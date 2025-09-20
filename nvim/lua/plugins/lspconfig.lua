@@ -1,5 +1,6 @@
 local icons = require("icons")
 local lang = require("lsp.lang")
+local lsp = require("lsp")
 
 return {
   {
@@ -14,6 +15,12 @@ return {
       setup = lang.setup,
     },
     config = vim.schedule_wrap(function(_, opts)
+      -- setup keymaps
+      lsp.on_attach(function(client, buf)
+        lsp.all_keymaps(client, buf)
+      end)
+      lsp.setup()
+      lsp.on_dynamic_capability(lsp.all_keymaps)
       -- diagnostics
       vim.diagnostic.config({
         underline = true,
