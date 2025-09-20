@@ -1,30 +1,35 @@
+```sh
+```
 lua
 ├── config
+│   ├── autocmds.lua
+│   ├── health.lua
 │   ├── init.lua
 │   ├── keymaps.lua
 │   ├── lazy.lua
 │   └── options.lua
+├── lsp
+│   ├── init.lua
+│   └── lang
+│       ├── docker.lua
+│       ├── go.lua
+│       ├── init.lua
+│       ├── lua.lua
+│       ├── markdown.lua
+│       ├── prisma.lua
+│       ├── python.lua
+│       ├── tailwind.lua
+│       ├── terraform.lua
+│       ├── typescript.lua
+│       └── yaml.lua
 ├── plugins
 │   ├── blink-cmp.lua
+│   ├── conform.lua
 │   ├── flash.lua
 │   ├── gitsigns.lua
 │   ├── init.lua
 │   ├── lazydev.lua
-│   ├── lsp
-│   │   ├── init.lua
-│   │   ├── keymaps.lua
-│   │   └── lang
-│   │       ├── docker.lua
-│   │       ├── go.lua
-│   │       ├── init.lua
-│   │       ├── lua.lua
-│   │       ├── markdown.lua
-│   │       ├── prisma.lua
-│   │       ├── python.lua
-│   │       ├── tailwind.lua
-│   │       ├── terraform.lua
-│   │       ├── typescript.lua
-│   │       └── yaml.lua
+│   ├── lspconfig.lua
 │   ├── mini-ai.lua
 │   ├── mini-pairs.lua
 │   ├── noice.lua
@@ -37,8 +42,6 @@ lua
 │   ├── cmp.lua
 │   ├── deprecated.lua
 │   ├── extras.lua
-│   ├── format.lua
-│   ├── icons.lua
 │   ├── init.lua
 │   ├── inject.lua
 │   ├── json.lua
@@ -112,3 +115,5 @@ lua
         ├── ui.lua
         ├── util.lua
         └── xtras.lua
+```
+```
