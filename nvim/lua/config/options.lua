@@ -45,7 +45,6 @@ opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-opt.foldexpr = "v:lua.require'util'.ui.foldexpr()"
 opt.foldlevel = 99
 opt.foldmethod = "expr"
 opt.foldtext = ""

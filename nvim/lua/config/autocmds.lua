@@ -4,51 +4,57 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("zim_" .. name, { clear = true })
 end
 
+local function lspmap(mode, key, fn, buf, opts)
+  local basic_opts = { buffer = buf, silent = true }
+  opts = vim.tbl_deep_extend("force", opts, basic_opts)
+  vim.keymap.set(mode, key, fn, opts)
+end
+
 -- lsp keymaps
 vim.api.nvim_create_autocmd("LspAttach", {
   group = augroup("lspattach"),
-  callback = function(evt)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = evt.buf, desc = "Goto Definition", silent = true })
-    vim.keymap.set(
-      "n",
-      "gr",
-      vim.lsp.buf.references,
-      { buffer = evt.buf, desc = "References", nowait = true, silent = true }
-    )
-    vim.keymap.set(
-      "n",
-      "gI",
-      vim.lsp.buf.implementation,
-      { buffer = evt.buf, desc = "Goto Implementation", silent = true }
-    )
-    vim.keymap.set(
-      "n",
-      "gt",
-      vim.lsp.buf.type_definition,
-      { buffer = evt.buf, desc = "Goto Type Definition", silent = true }
-    )
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = evt.buf, desc = "Goto Declaration", silent = true })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = evt.buf, desc = "Hover", silent = true })
-    vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = evt.buf, desc = "Signature Help", silent = true })
-    vim.keymap.set(
-      "i",
-      "<c-k>",
-      vim.lsp.buf.signature_help,
-      { buffer = evt.buf, desc = "Signature Help", silent = true }
-    )
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>ca",
-      vim.lsp.buf.code_action,
-      { buffer = evt.buf, desc = "Code Action", silent = true }
-    )
-    vim.keymap.set(
-      "n",
-      "<leader>cR",
-      Snacks.rename.rename_file,
-      { buffer = evt.buf, desc = "Rename File", silent = true }
-    )
-    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = evt.buf, desc = "Rename", silent = true })
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local buf = args.buf
+    if client then
+      if client:supports_method("textDocument/definition") then
+        lspmap("n", "gd", vim.lsp.buf.definition, buf, { desc = "Goto Definition" })
+      end
+      if client:supports_method("textDocument/references") then
+        lspmap("n", "gr", vim.lsp.buf.references, buf, { desc = "References", nowait = true })
+      end
+      if client:supports_method("textDocument/implementation") then
+        lspmap("n", "gI", vim.lsp.buf.implementation, buf, { desc = "Goto Implementation" })
+      end
+      if client:supports_method("textDocument/typeDefinition") then
+        lspmap("n", "gt", vim.lsp.buf.type_definition, buf, { desc = "Goto Type Definition" })
+      end
+      if client:supports_method("textDocument/declaration") then
+        lspmap("n", "gD", vim.lsp.buf.declaration, buf, { desc = "Goto Declaration" })
+      end
+      if client:supports_method("textDocument/hover") then
+        lspmap("n", "K", vim.lsp.buf.hover, buf, { desc = "Hover" })
+      end
+      if client:supports_method("textDocument/signatureHelp") then
+        lspmap("n", "gK", vim.lsp.buf.signature_help, buf, { desc = "Signature Help" })
+      end
+      if client:supports_method("textDocument/signatureHelp") then
+        lspmap("i", "<c-k>", vim.lsp.buf.signature_help, buf, { desc = "Signature Help" })
+      end
+      if client:supports_method("textDocument/codeAction") then
+        lspmap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, buf, { desc = "Code Action" })
+      end
+      if client:supports_method("workspace/didRenameFiles") or client:supports_method("workspace/willRenameFiles") then
+        lspmap("n", "<leader>cR", Snacks.rename.rename_file, buf, { desc = "Rename File" })
+      end
+      if client:supports_method("textDocument/rename") then
+        lspmap("n", "<leader>cr", vim.lsp.buf.rename, buf, { desc = "Rename" })
+      end
+      if client:supports_method("textDocument/foldingRange") then
+        local win = vim.api.nvim_get_current_win()
+        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+      end
+    end
   end,
 })
 

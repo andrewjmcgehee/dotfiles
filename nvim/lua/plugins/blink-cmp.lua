@@ -1,4 +1,4 @@
-local icons = require("util.icons")
+local icons = require("icons")
 
 return {
   "saghen/blink.cmp",
