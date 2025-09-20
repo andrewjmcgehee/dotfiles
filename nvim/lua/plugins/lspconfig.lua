@@ -1,6 +1,5 @@
 local icons = require("util.icons")
 local lang = require("lsp.lang")
-local lsp = require("lsp")
 local util = require("util")
 
 return {
@@ -27,9 +26,6 @@ return {
           },
         },
       },
-      inlay_hints = { enabled = false },
-      codelens = { enabled = false },
-      folds = { enabled = true },
       capabilities = {
         workspace = {
           fileOperations = {
@@ -45,52 +41,24 @@ return {
       servers = lang.servers,
       setup = lang.setup,
     },
-    config = function(_, opts)
-      -- setup keymaps
-      lsp.on_attach(function(client, buffer)
-        require("lsp.keymaps").on_attach(client, buffer)
-      end)
-      util.lsp.setup()
-      util.lsp.on_dynamic_capability(require("lsp.keymaps").on_attach)
-      -- inlay hints
-      if opts.inlay_hints.enabled then
-        util.lsp.on_supports_method("textDocument/inlayHint", function(_, buffer)
-          if
-            vim.api.nvim_buf_is_valid(buffer)
-            and vim.bo[buffer].buftype == ""
-            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-          then
-            vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
-          end
-        end)
-      end
-      -- code lens
-      if opts.codelens.enabled and vim.lsp.codelens then
-        util.lsp.on_supports_method("textDocument/codeLens", function(_, buffer)
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = buffer,
-            callback = vim.lsp.codelens.refresh,
-          })
-        end)
-      end
+    config = vim.schedule_wrap(function(_, opts)
       -- folds
-      if opts.folds.enabled then
-        util.lsp.on_supports_method("textDocument/foldingRange", function(_, _)
-          local win = vim.api.nvim_get_current_win()
-          vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
-        end)
-      end
+      util.lsp.on_supports_method("textDocument/foldingRange", function(_, _)
+        local win = vim.api.nvim_get_current_win()
+        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+      end)
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
       -- extend global capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+      capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities)
       vim.lsp.config("*", { capabilities = capabilities })
+      -- server config fn
       local function configure(server)
         local server_opts = opts.servers[server] or {}
         local setup = opts.setup[server] or opts.setup["*"]
-        if setup and setup(server, server_opts) then
-          return
+        if setup then
+          setup(server, server_opts)
         end
         vim.lsp.config(server, server_opts)
         vim.lsp.enable(server)
@@ -102,6 +70,6 @@ return {
           configure(server)
         end
       end
-    end,
+    end),
   },
 }

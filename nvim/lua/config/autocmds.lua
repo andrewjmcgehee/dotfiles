@@ -4,6 +4,54 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("zim_" .. name, { clear = true })
 end
 
+-- lsp keymaps
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("lspattach"),
+  callback = function(evt)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = evt.buf, desc = "Goto Definition", silent = true })
+    vim.keymap.set(
+      "n",
+      "gr",
+      vim.lsp.buf.references,
+      { buffer = evt.buf, desc = "References", nowait = true, silent = true }
+    )
+    vim.keymap.set(
+      "n",
+      "gI",
+      vim.lsp.buf.implementation,
+      { buffer = evt.buf, desc = "Goto Implementation", silent = true }
+    )
+    vim.keymap.set(
+      "n",
+      "gt",
+      vim.lsp.buf.type_definition,
+      { buffer = evt.buf, desc = "Goto Type Definition", silent = true }
+    )
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = evt.buf, desc = "Goto Declaration", silent = true })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = evt.buf, desc = "Hover", silent = true })
+    vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = evt.buf, desc = "Signature Help", silent = true })
+    vim.keymap.set(
+      "i",
+      "<c-k>",
+      vim.lsp.buf.signature_help,
+      { buffer = evt.buf, desc = "Signature Help", silent = true }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>ca",
+      vim.lsp.buf.code_action,
+      { buffer = evt.buf, desc = "Code Action", silent = true }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>cR",
+      Snacks.rename.rename_file,
+      { buffer = evt.buf, desc = "Rename File", silent = true }
+    )
+    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = evt.buf, desc = "Rename", silent = true })
+  end,
+})
+
 -- format on save and run code actions
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
