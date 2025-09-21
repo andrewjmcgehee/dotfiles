@@ -48,7 +48,15 @@ zstyle ":z4h:zsh-syntax-highlighting" channel "stable"
 z4h init || return
 # export explicit path
 export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL:$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/opt/postgresql@17/bin:/Users/amcg/Library/pnpm:/opt/homebrew/share/google-cloud-sdk/bin:/Users/amcg/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/iTerm.app/Contents/Resources/utilities:/Users/amcg/.cache/zsh4humans/v5/fzf/bin:$HOME/.local/bin
+PATH=$BUN_INSTALL:$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/opt/postgresql@17/bin
+PATH=$PATH:$HOME/.local/share/nvim/mason/bin:$HOME/Library/pnpm:/opt/homebrew/share/google-cloud-sdk/bin
+PATH=$PATH:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin
+PATH=$PATH:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin
+PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+PATH=$PATH/Applications/iTerm.app/Contents/Resources/utilities:$HOME/.cache/zsh4humans/v5/fzf/bin
+export PATH
 # extend fpath with custom completions
 fpath=($ZDOTDIR/completions /opt/homebrew/share/zsh/site-functions $fpath)
 autoload bashcompinit && bashcompinit
@@ -59,25 +67,18 @@ export GPG_TTY=$TTY
 ##### CUSTOM #####
 # lazy git
 g() {
-  # export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
-
   /opt/homebrew/bin/lazygit "$@"
-
-  # if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
-  #   cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
-  #   rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
-  # fi
 }
 
 # tmux
 tm() {
-  tmux new -A -s ${1:-work} 
+  tmux new -A -s ${1:-work}
 }
 
 ws() {
   cd $HOME/Workspaces
   [[ -z $1 ]] && return 0
-  if [[ -d $HOME/Workspaces/$1 ]]; then 
+  if [[ -d $HOME/Workspaces/$1 ]]; then
     cd $HOME/Workspaces/$1
   fi
   return 0
@@ -165,7 +166,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--color=bg+:#2d3f76,bg:#1e2030,border:#589ed7,fg:#c8d3f5,hl+:#65bcff,hl:#65bcff,info:#545c7e,marker:#ff007c,pointer:#ff007c,prompt:#65bcff,spinner:#ff007c,gutter:#1e2030,header:#ff966c"
 # change fzf key-bindings
 bindkey "^T" transpose-chars
-bindkey -r "^F" 
+bindkey -r "^F"
 bindkey "^H" fzf-history
 bindkey "^J" fzf-cd
 bindkey "^W" fzf-ws
@@ -184,7 +185,7 @@ setopt glob_dots # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
 
 # pnpm
-export PNPM_HOME="/Users/amcg/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -195,5 +196,4 @@ esac
 complete -C "/opt/homebrew/bin/aws_completer" aws
 complete -C "/opt/homebrew/bin/aws_completer" awslocal
 
-
-alias claude="/Users/amcg/.claude/local/claude"
+alias claude="$HOME/.claude/local/claude"

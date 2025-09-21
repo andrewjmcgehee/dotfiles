@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-check () {
+check() {
   command -v "$1" >/dev/null
 }
 
-check-msg () {
+check-msg() {
   if ! check $1; then
     echo $2
     exit 1
@@ -44,7 +44,7 @@ if [[ "$nodeversion" != 24.* ]]; then
   exit 1
 fi
 
-status () {
+status() {
   if [[ $? -eq 0 ]]; then
     echo -e "\033[1;32m✓\033[0m"
   else
@@ -52,9 +52,9 @@ status () {
   fi
 }
 
-brew-install () {
+brew-install() {
   printf "    📦 $1 "
-  if check $1; then 
+  if check $1; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
@@ -66,9 +66,9 @@ brew-install () {
   status
 }
 
-go-install () {
+go-install() {
   printf "    📦 $1 "
-  if check $1; then 
+  if check $1; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
@@ -80,9 +80,9 @@ go-install () {
   status
 }
 
-npm-install () {
+npm-install() {
   printf "    📦 $1 "
-  if check $1; then 
+  if check $1; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
@@ -97,33 +97,4 @@ npm-install () {
 echo "⚡️ installing tools..."
 brew-install packer hashicorp/tap/packer
 brew-install terraform hashicorp/tap/terraform
-brew-install tree-sitter tree-sitter-cli
-
-echo "⚡️ installing lsp servers..."
-brew-install basedpyright
-brew-install docker-compose-langserver
-brew-install docker-langserver dockerfile-language-server
-go-install gopls golang.org/x/tools/gopls@latest 
-brew-install lua-language-server
-brew-install marksman
-npm-install prisma-language-server @prisma/language-server 
-brew-install tailwindcss-language-server 
-brew-install terraform-ls hashicorp/tap/terraform-ls
-brew-install yaml-language-server
-
-echo "⚡️ installing linters and formatters..."
-brew-install dockerfmt
-go-install gofumpt mvdan.cc/gofumpt@latest 
-go-install goimports golang.org/x/tools/cmd/goimports@latest 
-go-install golines github.com/segmentio/golines@latest
-go-install gosec github.com/securego/gosec/v2/cmd/gosec@latest 
-brew-install hadolint
-brew-install markdownlint-cli2
-brew-install markdown-toc
-go-install revive github.com/mgechev/revive@latest 
-brew-install ruff
-brew-install shfmt
-brew-install sqlfluff
-go-install staticcheck honnef.co/go/tools/cmd/staticcheck@latest 
-brew-install stylua
-brew-install tflint
+go-install gosec github.com/securego/gosec/v2/cmd/gosec@latest
