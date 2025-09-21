@@ -12,7 +12,6 @@ return {
       -- docker-compose
       "docker-compose-language-service",
       -- go
-      "air",
       "gofumpt",
       "goimports",
       "golines",
@@ -49,6 +48,13 @@ return {
       "vtsls",
       -- yaml
       "yaml-language-server",
+    },
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "⋯",
+        package_uninstalled = "✗",
+      },
     },
   },
   config = function(_, opts)

@@ -49,7 +49,7 @@ z4h init || return
 # export explicit path
 export BUN_INSTALL="$HOME/.bun"
 PATH=$BUN_INSTALL:$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/opt/postgresql@17/bin
-PATH=$PATH:$HOME/.local/share/nvim/mason/bin:$HOME/Library/pnpm:/opt/homebrew/share/google-cloud-sdk/bin
+PATH=$PATH:$HOME/.local/share/nvim/mason/bin:/opt/homebrew/share/google-cloud-sdk/bin
 PATH=$PATH:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin
 PATH=$PATH:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin
 PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
@@ -183,14 +183,6 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 # shell options
 setopt glob_dots # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 # aws completion
 complete -C "/opt/homebrew/bin/aws_completer" aws

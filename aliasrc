@@ -4,12 +4,11 @@
 alias \
   L="gls -AFNhl --color=auto --group-directories-first" \
   act="source .venv/bin/activate" \
-  cfa="$EDITOR $HOME/.config/aliasrc" \
   cfg="cd $HOME/.config" \
-  cfk="$EDITOR $HOME/.config/kitty/kitty.conf" \
-  cfn="$EDITOR $HOME/.config/nvim" \
-  cft="$EDITOR $HOME/.config/tmux/tmux.conf" \
-  cfz="$EDITOR $ZDOTDIR/.zshrc" \
+  cfk="cd $HOME/.config/kitty" \
+  cfn="cd $HOME/.config/nvim" \
+  cft="cd $HOME/.config/tmux" \
+  cfz="cd $ZDOTDIR" \
   clear="z4h-clear-screen-soft-bottom" \
   cls="z4h-clear-screen-soft-bottom" \
   cp="cp -iv" \
@@ -37,4 +36,10 @@ alias \
   t="tail" \
   todo="godoit" \
   tmls="tmux ls" \
-  v="nvim"
+  v="nvim" \
+  vfa="$EDITOR $HOME/.config/aliasrc" \
+  vfg="$EDITOR $HOME/.config" \
+  vfk="$EDITOR $HOME/.config/kitty/kitty.conf" \
+  vfn="$EDITOR $HOME/.config/nvim" \
+  vft="$EDITOR $HOME/.config/tmux/tmux.conf" \
+  vfz="$EDITOR $ZDOTDIR/.zshrc"

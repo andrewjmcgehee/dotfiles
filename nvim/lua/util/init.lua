@@ -8,12 +8,12 @@ setmetatable(M, {
     if lazyutil[k] then
       return lazyutil[k]
     end
-    if k == "lazygit" or k == "toggle" then -- HACK: special case for lazygit
-      return M.deprecated[k]()
-    end
+    -- if k == "lazygit" or k == "toggle" then -- HACK: special case for lazygit
+    --   return M.deprecated[k]()
+    -- end
     ---@diagnostic disable-next-line: no-unknown
     t[k] = require("util." .. k)
-    M.deprecated.decorate(k, t[k])
+    -- M.deprecated.decorate(k, t[k])
     return t[k]
   end,
 })
