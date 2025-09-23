@@ -5,27 +5,10 @@
 
 - lualine
   - maybe use navic instead of symbols section?
-- snacks
-  - update starter splash screen
-  - unify configs
 
 # extras
 
-- ai
-  - copilot
-    - single config
-    - blink ai_accept
-    - blink source?
-    - blink-copilot look into what this is
 - coding
-  - blink DONE
-  - luasnip
-    - see if i even need/want this probably not
-  - mini sinppets
-    - compare with luasnip
-    - see if i even need/want this probably not
-  - mini surround
-    - maybe look into tpope surround
   - neogen
 - editor
   - dial

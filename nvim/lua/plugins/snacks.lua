@@ -1,3 +1,5 @@
+local repo_pattern = "https://github.com/(.*)"
+
 return {
   "snacks.nvim",
   keys = {
@@ -40,19 +42,26 @@ return {
         { section = "projects", title = "projects", indent = 2, padding = 1, limit = 5 },
         { section = "recent_files", title = "recents", indent = 2, padding = 1, limit = 5 },
         { section = "startup" },
-        {
-          pane = 2,
-          icon = " ",
-          desc = "browse repo",
-          padding = 1,
-          key = "b",
-          action = function()
-            Snacks.gitbrowse()
-          end,
-        },
         function()
           local in_git = Snacks.git.get_root() ~= nil
+          local wide_enough = vim.opt.columns:get() >= 100
+          local remote = io.popen("git remote get-url --all origin"):read("*l")
+          local title = "browse repo"
+          if remote then
+            title = title .. " (" .. remote:match(repo_pattern) .. ")"
+          end
           local cmds = {
+            {
+              icon = " ",
+              title = title,
+              cmd = "",
+              height = 1,
+              padding = 0,
+              key = "b",
+              action = function()
+                Snacks.gitbrowse()
+              end,
+            },
             {
               title = "notifications",
               cmd = "gh-notifications",
@@ -62,7 +71,6 @@ return {
               action = function()
                 vim.ui.open("https://github.com/notifications")
               end,
-              enabled = true,
             },
             {
               title = "issues",
@@ -89,7 +97,7 @@ return {
             return vim.tbl_extend("force", {
               pane = 2,
               section = "terminal",
-              enabled = in_git,
+              enabled = in_git and wide_enough,
               padding = 1,
               ttl = 60, -- 1 minute
               indent = 3,
