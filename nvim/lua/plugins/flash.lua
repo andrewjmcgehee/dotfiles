@@ -1,8 +1,5 @@
 return {
   "folke/flash.nvim",
-  event = "VeryLazy",
-  vscode = true,
-  opts = {},
   keys = {
     {
       "s",
@@ -20,35 +17,17 @@ return {
       end,
       desc = "Flash Treesitter",
     },
+    -- simulate nvim-treesitter incremental selection
     {
-      "r",
-      mode = "o",
-      function()
-        require("flash").remote()
-      end,
-      desc = "Remote Flash",
-    },
-    {
-      "R",
-      mode = { "o", "x" },
-      function()
-        require("flash").treesitter_search()
-      end,
-      desc = "Treesitter Search",
-    },
-    {
-      "<c-s>",
-      mode = { "c" },
-      function()
-        require("flash").toggle()
-      end,
-      desc = "Toggle Flash Search",
-    },
-    {
-      "<c-space>",
+      "<space>",
       mode = { "n", "o", "x" },
       function()
-        require("flash").treesitter({ actions = { ["<c-space"] = "next", ["<bs>"] = "prev" } })
+        require("flash").treesitter({
+          actions = {
+            ["<space>"] = "next",
+            ["<bs>"] = "prev",
+          },
+        })
       end,
       desc = "Treesitter Incremental Selection",
     },

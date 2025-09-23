@@ -1,0 +1,69 @@
+- UNIFY WHICH-KEY
+- LSP SERVERS FOR LANGS (extras)
+
+# ui
+
+- lualine
+  - maybe use navic instead of symbols section?
+- noice
+  - filter some of the annoying messages like lines removed etc
+- snacks
+  - check each sub plugin
+  - update starter splash screen
+  - unify configs
+  - remove scratch buffer bs
+
+# extras
+
+- ai
+  - copilot
+    - single config
+    - blink ai_accept
+    - blink source?
+    - blink-copilot look into what this is
+- coding
+  - blink DONE
+  - luasnip
+    - see if i even need/want this probably not
+  - mini sinppets
+    - compare with luasnip
+    - see if i even need/want this probably not
+  - mini surround
+    - maybe look into tpope surround
+  - neogen
+- editor
+  - dial
+  - harpoon2
+  - navic (if its not annoying with the bufferline)
+    - maybe on the lualine
+  - outline
+  - refactoring
+  - snacks explorer
+  - telescope
+- formatting
+  - prettier
+- lang
+  - docker
+  - docker-compose
+  - git
+  - go
+  - helm
+  - json
+  - markdown
+  - prisma
+  - python
+  - rust
+  - sql
+  - tailwind
+  - terraform
+  - typescript
+  - yaml
+- linting
+  - eslint
+- testing
+  - neotest
+- util
+  - dot files
+  - octo
+  - rest
+  - startuptime
