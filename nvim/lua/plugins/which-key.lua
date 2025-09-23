@@ -41,7 +41,7 @@ return {
       function()
         require("which-key").show({ global = false })
       end,
-      desc = "Buffer Keymaps",
+      desc = "keymap help",
     },
   },
   config = function(_, opts)

@@ -6,10 +6,10 @@
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-font_family      family="JetBrainsMono Nerd Font Mono" style="ExtraBold"
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+# font_family      monospace
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 #: You can specify different fonts for the bold/italic/bold-italic
 #: variants. The easiest way to select fonts is to run the `kitten
@@ -20,7 +20,7 @@ bold_italic_font auto
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 18.0
+# font_size 11.0
 
 #: Font size (in pts).
 
@@ -148,16 +148,16 @@ font_size 18.0
 #: suffix px for pixels or % for percentage of original value. No
 #: suffix means use pts. For example::
 
-modify_font underline_position 2px
-modify_font underline_thickness 200%
-# modify_font strikethrough_position 2px
+#:     modify_font underline_position -2
+#:     modify_font underline_thickness 150%
+#:     modify_font strikethrough_position 2px
 
 #: Additionally, you can modify the size of the cell in which each
 #: font glyph is rendered and the baseline at which the glyph is
 #: placed in the cell. For example::
 
-modify_font cell_width 96%
-modify_font cell_height -2px
+#:     modify_font cell_width 80%
+#:     modify_font cell_height -2px
 #:     modify_font baseline 3
 
 #: Note that modifying the baseline will automatically adjust the
@@ -254,7 +254,7 @@ modify_font cell_height -2px
 #: the foreground color will be set to white if the background is dark
 #: or black if the background is light.
 
-#: WARNING Some programs use characters (such as block characters)
+#: WARNING: Some programs use characters (such as block characters)
 #: for graphics display and may expect to be able to set the
 #: foreground and background to the same color (or similar colors). If
 #: you see unexpected stripes, dots, lines, incorrect color, no color
@@ -313,7 +313,7 @@ modify_font cell_height -2px
 
 #: The thickness of the underline cursor (in pts).
 
-cursor_blink_interval 0
+# cursor_blink_interval -1
 
 #: The interval to blink the cursor (in seconds). Set to zero to
 #: disable blinking. Negative values mean use system default. Note
@@ -497,13 +497,13 @@ cursor_blink_interval 0
 #:  - -1.0
 #:  - 0.1 3.0 40 yes
 
-# url_color #e17277
-url_style straight
+# url_color #0087bd
+# url_style curly
 
 #: The color and style for highlighting URLs on mouse-over. url_style
 #: can be one of: none, straight, double, curly, dotted, dashed.
 
-open_url_with default
+# open_url_with default
 
 #: The program to open clicked URLs. The special value default will
 #: first look for any URL handlers defined via the open_actions
@@ -552,7 +552,7 @@ open_url_with default
 #: to/from always will only affect text subsequently received by
 #: kitty.
 
-copy_on_select clipboard
+# copy_on_select no
 
 #: Copy to clipboard or a private buffer on select. With this set to
 #: clipboard, selecting text with the mouse will cause the text to be
@@ -722,7 +722,7 @@ copy_on_select clipboard
 
 #: Click the link under the mouse cursor
 
-mouse_map cmd+left release grabbed,ungrabbed mouse_handle_click link
+# mouse_map ctrl+shift+left release grabbed,ungrabbed mouse_handle_click link
 
 #::  Variant with Ctrl+Shift is present because the simple click based
 #::  version has an unavoidable delay of click_interval, to
@@ -1109,7 +1109,7 @@ mouse_map cmd+left release grabbed,ungrabbed mouse_handle_click link
 #: insensitive, from the set 0-9A-Z\-=[];',./\\`. Specify your
 #: preference as a string of characters.
 
-confirm_os_window_close 0
+# confirm_os_window_close -1
 
 #: Ask for confirmation when closing an OS window or a tab with at
 #: least this number of kitty windows in it by window manager (e.g.
@@ -1302,51 +1302,8 @@ confirm_os_window_close 0
 
 #: Color scheme {{{
 
-background #222436
-foreground #c8d3f5
-selection_background #2d3f76
-selection_foreground #c8d3f5
-url_color #4fd6be
-cursor #c8d3f5
-cursor_text_color #222436
-
-# Tabs
-active_tab_background #82aaff
-active_tab_foreground #1e2030
-inactive_tab_background #2f334d
-inactive_tab_foreground #545c7e
-#tab_bar_background #1b1d2b
-
-# Windows
-active_border_color #82aaff
-inactive_border_color #2f334d
-
-# normal
-color0 #1b1d2b
-color1 #ff757f
-color2 #c3e88d
-color3 #ffc777
-color4 #82aaff
-color5 #c099ff
-color6 #86e1fc
-color7 #828bb8
-
-# bright
-color8  #444a73
-color9  #ff8d94
-color10 #c7fb6d
-color11 #ffd8ab
-color12 #9ab8ff
-color13 #caabff
-color14 #b2ebff
-color15 #c8d3f5
-
-# extended colors
-color16 #ff966c
-color17 #c53b53
-
-# foreground #acb1bd
-# background #282b33
+# foreground #dddddd
+# background #000000
 
 #: The foreground and background colors.
 
@@ -1490,30 +1447,45 @@ color17 #c53b53
 #: dull and bright version, for the first 16 colors. You can set the
 #: remaining 240 colors as color16 to color255.
 
-# #: black
 # color0 #000000
-# color8 #545f6d
-# #: red
-# color1 #e17277
-# color9 #e17277
-# #: green
-# color2  #9ccd82
-# color10 #9ccd82
-# #: yellow
-# color3  #ffd47c
-# color11 #ffd47c
-# #: blue
-# color4  #63b9f5
-# color12 #63b9f5
-# #: magenta
-# color5  #c87be7
-# color13 #c87be7
-# #: cyan
-# color6  #797af6
-# color14 #797af6
-# #: white
-# color7  #acb1bd
-# color15 #acb1bd
+# color8 #767676
+
+#: black
+
+# color1 #cc0403
+# color9 #f2201f
+
+#: red
+
+# color2  #19cb00
+# color10 #23fd00
+
+#: green
+
+# color3  #cecb00
+# color11 #fffd00
+
+#: yellow
+
+# color4  #0d73cc
+# color12 #1a8fff
+
+#: blue
+
+# color5  #cb1ed1
+# color13 #fd28ff
+
+#: magenta
+
+# color6  #0dcdcd
+# color14 #14ffff
+
+#: cyan
+
+# color7  #dddddd
+# color15 #ffffff
+
+#: white
 
 # mark1_foreground black
 
@@ -1939,8 +1911,6 @@ color17 #c53b53
 
 #: OS specific tweaks {{{
 
-hide_window_decorations titlebar-only
-
 # wayland_titlebar_color system
 
 #: The color of the kitty window's titlebar on Wayland systems with
@@ -1955,7 +1925,7 @@ hide_window_decorations titlebar-only
 #: system means to use the default system color, light or dark can
 #: also be used to set it explicitly. A value of background means to
 #: use the background color of the currently active window and finally
-#: you can use an arbitrary color, such as #12af59 or red. WARNING
+#: you can use an arbitrary color, such as #12af59 or red. WARNING:
 #: This option works by using a hack when arbitrary color (or
 #: background) is configured, as there is no proper Cocoa API for it.
 #: It sets the background color of the entire window and makes the
@@ -2030,7 +2000,7 @@ hide_window_decorations titlebar-only
 
 #: Use a custom mouse cursor for macOS that is easier to see on both
 #: light and dark backgrounds. Nowadays, the default macOS cursor
-#: already comes with a white border. WARNING this might make your
+#: already comes with a white border. WARNING: this might make your
 #: mouse cursor invisible on dual GPU machines. Changing this option
 #: by reloading the config is not supported.
 
@@ -2803,4 +2773,3 @@ hide_window_decorations titlebar-only
 #: }}}
 
 #: }}}
-

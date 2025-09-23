@@ -31,20 +31,22 @@ vim.keymap.del("n", "<leader>dpp")
 -- map <leader>d to buf delete
 vim.keymap.set("n", "<leader>d", function()
   Snacks.bufdelete()
-end, { desc = "Delete Buffer" })
--- edit parent directory of current file
-vim.keymap.set("n", "-", vim.cmd.Explore, { desc = "Explore File Parent" })
+end, { desc = "delete buffer" })
 -- single q for quit
 vim.keymap.del("n", "<leader>qq")
-vim.keymap.set("n", "<leader>q", "<cmd>qa<enter>", { desc = "Quit All" })
+vim.keymap.set("n", "<leader>q", "<cmd>qa<enter>", { desc = "quit all" })
 -- delete more keymaps
 vim.keymap.del({ "n", "i", "x", "s" }, "<c-s>") -- save file
 vim.keymap.del("t", "<c-/>") -- toggle terminal
 vim.keymap.del("t", "<c-_>") -- unused
-vim.keymap.del("n", "<leader>cd") -- line diagnostics (just use ]d and [d instead)
-vim.keymap.del("n", "<leader>cf") -- manual format (unused)
+vim.keymap.del("n", "<leader>.") -- toggle scratch buffer
+vim.keymap.del("n", "<leader>:") -- command history
+vim.keymap.del("n", "<leader>|") -- vertical split (replacing with telescope vexplore)
+vim.keymap.del("n", "<leader>-") -- horizontal split (replacing with telescope and hexplore)
 vim.keymap.del("n", "<leader>K") -- keywordprg (no idea what this is for)
 vim.keymap.del("n", "<leader>L") -- lazyvim changelog
+vim.keymap.del("n", "<leader>S") -- open scratch buffer
+vim.keymap.del("n", "<leader>cf") -- manual format (unused)
 vim.keymap.del("n", "<leader>fT") -- terminal in cwd
 vim.keymap.del("n", "<leader>fn") -- new file
 vim.keymap.del("n", "<leader>ft") -- terminal in root

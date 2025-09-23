@@ -5,13 +5,9 @@
 
 - lualine
   - maybe use navic instead of symbols section?
-- noice
-  - filter some of the annoying messages like lines removed etc
 - snacks
-  - check each sub plugin
   - update starter splash screen
   - unify configs
-  - remove scratch buffer bs
 
 # extras
 

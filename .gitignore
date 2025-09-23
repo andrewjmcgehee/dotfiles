@@ -5,11 +5,8 @@ gcloud
 gh
 git
 github-copilot
-mylazyvim
 ngrok
 .zsh_history
-
-# ignore backups and binaries
+# zsh binaries
 *.bak
-*.old
 *.zwc
