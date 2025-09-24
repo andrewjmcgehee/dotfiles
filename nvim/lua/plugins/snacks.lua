@@ -1,22 +1,32 @@
 local repo_pattern = "https://github.com/(.*)"
 
 return {
-  "snacks.nvim",
+  "folke/snacks.nvim",
   keys = {
     {
       "<leader>n",
       function()
         Snacks.notifier.show_history()
       end,
-      desc = "notifications",
+      desc = "Notifications",
     },
     {
       "<leader>un",
       function()
         Snacks.notifier.hide()
       end,
-      desc = "dismiss notifications",
+      desc = "Dismiss Notifications",
     },
+    { "<leader>fe", false },
+    { "<leader>fE", false },
+    {
+      "<leader>e",
+      function()
+        Snacks.explorer({ cwd = LazyVim.root() })
+      end,
+      desc = "Explorer",
+    },
+    { "<leader>E", false },
   },
   opts = {
     dashboard = {
@@ -24,17 +34,17 @@ return {
       preset = {
         header = nil,
         keys = {
-          { icon = " ", key = "f", desc = "files", action = ":lua Snacks.dashboard.pick('files')" },
-          { icon = " ", key = "g", desc = "grep", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "f", desc = "Files", action = ":lua Snacks.dashboard.pick('files')" },
+          { icon = " ", key = "g", desc = "Grep", action = ":lua Snacks.dashboard.pick('live_grep')" },
           {
             icon = " ",
             key = "c",
-            desc = "config",
+            desc = "Config",
             action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
           },
-          { icon = "󰒲 ", key = "l", desc = "lazy", action = ":Lazy" },
-          { icon = " ", key = "x", desc = "extras", action = ":LazyExtras" },
-          { icon = " ", key = "q", desc = "quit", action = ":qa" },
+          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "x", desc = "Extras", action = ":LazyExtras" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
       },
       sections = {
@@ -44,8 +54,7 @@ return {
         { section = "startup" },
         function()
           local in_git = Snacks.git.get_root() ~= nil
-          local wide_enough = vim.opt.columns:get() >= 100
-          local remote = io.popen("git remote get-url --all origin"):read("*l")
+          local remote = io.popen("git remote get-url --push origin 2>/dev/null"):read("*l")
           local title = "browse repo"
           if remote then
             title = title .. " (" .. remote:match(repo_pattern) .. ")"
@@ -97,13 +106,59 @@ return {
             return vim.tbl_extend("force", {
               pane = 2,
               section = "terminal",
-              enabled = in_git and wide_enough,
+              enabled = in_git,
               padding = 1,
               ttl = 60, -- 1 minute
               indent = 3,
             }, cmd)
           end, cmds)
         end,
+      },
+    },
+    picker = {
+      sources = {
+        explorer = {
+          auto_close = true,
+          jump = { close = false },
+          layout = { preset = "default", preview = true },
+          win = {
+            list = {
+              keys = {
+                ["<left>"] = "explorer_up",
+                ["<right>"] = "confirm",
+                ["a"] = "explorer_add",
+                ["d"] = "explorer_del",
+                ["m"] = "explorer_move",
+                ["y"] = { "explorer_yank", mode = { "n", "x" } },
+                ["p"] = "explorer_paste",
+                ["u"] = "explorer_update",
+                ["<c-c>"] = "tcd",
+                ["I"] = "toggle_ignored",
+                ["H"] = "toggle_hidden",
+                ["Z"] = "explorer_close_all",
+                ["]g"] = "explorer_git_next",
+                ["[g"] = "explorer_git_prev",
+                ["]d"] = "explorer_diagnostic_next",
+                ["[d"] = "explorer_diagnostic_prev",
+                ["]w"] = "explorer_warn_next",
+                ["[w"] = "explorer_warn_prev",
+                ["]e"] = "explorer_error_next",
+                ["[e"] = "explorer_error_prev",
+                -- unset
+                ["<BS>"] = false,
+                ["l"] = false,
+                ["h"] = false,
+                ["r"] = false,
+                ["c"] = false,
+                ["o"] = false,
+                ["P"] = false,
+                ["<leader>/"] = false,
+                ["<c-t>"] = false,
+                ["."] = false,
+              },
+            },
+          },
+        },
       },
     },
   },

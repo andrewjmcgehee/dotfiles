@@ -3,10 +3,10 @@ return {
   keys = function(_, keys)
     local opts = LazyVim.opts("mini.surround")
     local mappings = {
-      { opts.mappings.add, desc = "add surrounding", mode = { "n", "v" } },
-      { opts.mappings.delete, desc = "delete surrounding" },
-      { opts.mappings.highlight, desc = "highlight surrounding" },
-      { opts.mappings.replace, desc = "replace surrounding" },
+      { opts.mappings.add, desc = "Add Surrounding", mode = { "n", "v" } },
+      { opts.mappings.delete, desc = "Delete Surrounding" },
+      { opts.mappings.highlight, desc = "Highlight Surrounding" },
+      { opts.mappings.replace, desc = "Replace Surrounding" },
     }
     mappings = vim.tbl_filter(function(m)
       return m[1] and #m[1] > 0

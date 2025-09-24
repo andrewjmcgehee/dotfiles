@@ -2,28 +2,34 @@ return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts_extend = { "spec" },
-  opts = function()
+  opts = function(_, opts)
     -- opts as a function overwrites lazyvim opts completely
+    opts.icons = {
+      rules = {
+        { pattern = "^help$", icon = LazyVim.config.icons.diagnostics.Hint, color = "green" },
+      },
+    }
     return {
       preset = "helix",
       defaults = {},
+      icons = opts.icons,
       spec = {
         {
           mode = { "n", "v" },
-          { "<leader>c", group = "code" },
-          { "<leader>f", group = "find" },
-          { "<leader>g", group = "git" },
-          { "<leader>s", group = "search" },
-          { "<leader>u", group = "ui" },
-          { "<leader>x", group = "quickfix" },
-          { "[", group = "prev" },
-          { "]", group = "next" },
-          { "g", group = "goto" },
-          { "gs", group = "surround" },
-          { "z", group = "fold" },
+          { "<leader>c", group = "Code" },
+          { "<leader>f", group = "Find" },
+          { "<leader>g", group = "Git" },
+          { "<leader>s", group = "Search" },
+          { "<leader>u", group = "UI" },
+          { "<leader>x", group = "Quickfix" },
+          { "[", group = "Prev" },
+          { "]", group = "Next" },
+          { "g", group = "Goto" },
+          { "gs", group = "Surround" },
+          { "z", group = "Fold" },
           {
             "<leader>w",
-            group = "windows",
+            group = "Windows",
             proxy = "<c-w>",
             expand = function()
               return require("which-key.extras").expand.win()
@@ -37,12 +43,13 @@ return {
   end,
   keys = {
     {
-      "<leader>?",
+      "<leader>h",
       function()
         require("which-key").show({ global = false })
       end,
-      desc = "keymap help",
+      desc = "Help",
     },
+    { "<leader>?", false },
   },
   config = function(_, opts)
     local wk = require("which-key")

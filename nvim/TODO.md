@@ -1,24 +1,9 @@
-- UNIFY WHICH-KEY
 - LSP SERVERS FOR LANGS (extras)
-
-# ui
-
-- lualine
-  - maybe use navic instead of symbols section?
 
 # extras
 
 - coding
   - neogen
-- editor
-  - dial
-  - harpoon2
-  - navic (if its not annoying with the bufferline)
-    - maybe on the lualine
-  - outline
-  - refactoring
-  - snacks explorer
-  - telescope
 - formatting
   - prettier
 - lang

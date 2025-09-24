@@ -31,21 +31,21 @@ vim.keymap.del("n", "<leader>dpp")
 -- map <leader>d to buf delete
 vim.keymap.set("n", "<leader>d", function()
   Snacks.bufdelete()
-end, { desc = "delete buffer" })
+end, { desc = "which_key_ignore" })
 -- single q for quit
 vim.keymap.del("n", "<leader>qq")
-vim.keymap.set("n", "<leader>q", "<cmd>qa<enter>", { desc = "quit all" })
+vim.keymap.set("n", "<leader>q", "<cmd>qa<enter>", { desc = "Quit" })
 -- delete more keymaps
 vim.keymap.del({ "n", "i", "x", "s" }, "<c-s>") -- save file
 vim.keymap.del("t", "<c-/>") -- toggle terminal
 vim.keymap.del("t", "<c-_>") -- unused
 vim.keymap.del("n", "<leader>.") -- toggle scratch buffer
-vim.keymap.del("n", "<leader>:") -- command history
 vim.keymap.del("n", "<leader>|") -- vertical split (replacing with telescope vexplore)
 vim.keymap.del("n", "<leader>-") -- horizontal split (replacing with telescope and hexplore)
 vim.keymap.del("n", "<leader>K") -- keywordprg (no idea what this is for)
 vim.keymap.del("n", "<leader>L") -- lazyvim changelog
 vim.keymap.del("n", "<leader>S") -- open scratch buffer
+vim.keymap.del("n", "<leader>cd") -- disable line diagnostics in favor of [d or ]d
 vim.keymap.del("n", "<leader>cf") -- manual format (unused)
 vim.keymap.del("n", "<leader>fT") -- terminal in cwd
 vim.keymap.del("n", "<leader>fn") -- new file
@@ -73,7 +73,6 @@ vim.keymap.del("n", "<leader>gG")
 vim.keymap.del("n", "<leader>gY")
 vim.keymap.del("n", "<leader>gL")
 vim.keymap.del("n", "<leader>gf")
-vim.keymap.del("n", "<leader>gs")
 -- trouble
 vim.keymap.del("n", "<leader>cS")
 vim.keymap.del("n", "<leader>cs")
@@ -83,6 +82,11 @@ vim.keymap.del("n", "<leader>xX")
 vim.keymap.del("n", "<leader>xl")
 vim.keymap.del("n", "<leader>xq")
 vim.keymap.del("n", "<leader>xx")
+-- noice
+vim.keymap.set("n", "<leader>sn", function() end, { desc = "+Noice" })
+vim.keymap.set("n", "<leader>snt", function()
+  require("noice").cmd("pick")
+end, { desc = "Noice Telescope" })
 -- ui
 vim.keymap.del("n", "<leader>uA") -- toggle tab/buffer line
 vim.keymap.del("n", "<leader>uD") -- toggle cursor context dimming
@@ -98,6 +102,7 @@ vim.keymap.del("n", "<leader>uf") -- toggle autoformat
 vim.keymap.del("n", "<leader>ug") -- toggle indent guides
 vim.keymap.del("n", "<leader>uh") -- toggle inlay hints
 vim.keymap.del("n", "<leader>ul") -- toggle line numbers
+vim.keymap.del("n", "<leader>up") -- toggle mini pairs
 vim.keymap.del("n", "<leader>ur") -- redraw
 vim.keymap.del("n", "<leader>uw") -- toggle wrap
 vim.keymap.del("n", "<leader>uz") -- toggle zen mode

@@ -6,6 +6,7 @@ return {
       "c",
       "diff",
       "dockerfile",
+      "dotenv",
       "go",
       "gomod",
       "gosum",

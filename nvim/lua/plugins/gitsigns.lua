@@ -28,21 +28,21 @@ return {
         else
           gs.nav_hunk("next")
         end
-      end, "next hunk")
+      end, "Next Hunk")
       map("n", "[h", function()
         if vim.wo.diff then
           vim.cmd.normal({ "[c", bang = true })
         else
           gs.nav_hunk("prev")
         end
-      end, "prev hunk")
+      end, "Prev Hunk")
       map("n", "<leader>gB", function()
         gs.blame_line({ full = true })
-      end, "blame line")
-      map("n", "<leader>gd", gs.diffthis, "diff this")
+      end, "Blame")
+      map("n", "<leader>gd", gs.diffthis, "Diff")
       map("n", "<leader>gD", function()
         gs.diffthis("~")
-      end, "diff this ~")
+      end, "Diff ~")
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
     end,
   },
