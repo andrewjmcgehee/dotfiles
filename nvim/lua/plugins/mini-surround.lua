@@ -5,8 +5,7 @@ return {
     local mappings = {
       { opts.mappings.add, desc = "Add Surrounding", mode = { "n", "v" } },
       { opts.mappings.delete, desc = "Delete Surrounding" },
-      { opts.mappings.highlight, desc = "Highlight Surrounding" },
-      { opts.mappings.replace, desc = "Replace Surrounding" },
+      { opts.mappings.replace, desc = "Change Surrounding" },
     }
     mappings = vim.tbl_filter(function(m)
       return m[1] and #m[1] > 0
@@ -17,8 +16,7 @@ return {
     mappings = {
       add = "gs", -- surround
       delete = "gsd", -- delete surrounding
-      highlight = "gsh", -- highlight surrounding
-      replace = "gsr", -- replace surrounding
+      replace = "gsc", -- change surrounding
     },
   },
 }
