@@ -1,33 +1,8 @@
-- LSP SERVERS FOR LANGS (extras)
-
 # extras
 
-- coding
-  - neogen
-- formatting
-  - prettier
-- lang
-  - docker
-  - docker-compose
-  - git
-  - go
-  - helm
-  - json
-  - markdown
-  - prisma
-  - python
-  - rust
-  - sql
-  - tailwind
-  - terraform
-  - typescript
-  - yaml
-- linting
-  - eslint
 - testing
-  - neotest
+  - neotest setups
 - util
-  - dot files
   - octo
   - rest
   - startuptime

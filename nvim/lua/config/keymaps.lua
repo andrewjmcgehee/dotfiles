@@ -75,7 +75,6 @@ vim.keymap.del("n", "<leader>gL")
 vim.keymap.del("n", "<leader>gf")
 -- trouble
 vim.keymap.del("n", "<leader>cS")
-vim.keymap.del("n", "<leader>cs")
 vim.keymap.del("n", "<leader>xL")
 vim.keymap.del("n", "<leader>xQ")
 vim.keymap.del("n", "<leader>xX")
