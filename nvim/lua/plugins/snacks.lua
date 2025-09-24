@@ -49,13 +49,13 @@ return {
       },
       sections = {
         { section = "keys", padding = 1 },
-        { section = "projects", title = "projects", indent = 2, padding = 1, limit = 5 },
-        { section = "recent_files", title = "recents", indent = 2, padding = 1, limit = 5 },
+        { section = "projects", title = "Projects", indent = 2, padding = 1, limit = 5 },
+        { section = "recent_files", title = "Recents", indent = 2, padding = 1, limit = 5 },
         { section = "startup" },
         function()
           local in_git = Snacks.git.get_root() ~= nil
           local remote = io.popen("git remote get-url --push origin 2>/dev/null"):read("*l")
-          local title = "browse repo"
+          local title = "Browse Repo"
           if remote then
             title = title .. " (" .. remote:match(repo_pattern) .. ")"
           end
@@ -72,7 +72,7 @@ return {
               end,
             },
             {
-              title = "notifications",
+              title = "Notifications",
               cmd = "gh-notifications",
               icon = " ",
               key = "n",
@@ -82,7 +82,7 @@ return {
               end,
             },
             {
-              title = "issues",
+              title = "Issues",
               cmd = "gh-issues",
               icon = " ",
               key = "i",
@@ -92,7 +92,7 @@ return {
               height = 5,
             },
             {
-              title = "prs",
+              title = "PRs",
               cmd = "gh-prs",
               icon = " ",
               key = "p",

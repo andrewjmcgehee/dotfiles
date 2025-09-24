@@ -3,10 +3,9 @@ return {
   event = "VeryLazy",
   opts_extend = { "spec" },
   opts = function(_, opts)
-    -- opts as a function overwrites lazyvim opts completely
     opts.icons = {
       rules = {
-        { pattern = "^help$", icon = LazyVim.config.icons.diagnostics.Hint, color = "green" },
+        { pattern = "rest", icon = "󰖟 ", color = "blue" },
       },
     }
     return {
@@ -18,7 +17,17 @@ return {
           mode = { "n", "v" },
           { "<leader>c", group = "Code" },
           { "<leader>f", group = "Find" },
-          { "<leader>g", group = "Git" },
+          { "<leader>g", group = "Git", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>o", group = "Octo", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>oa", group = "Assignee", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>oc", group = "Comment", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>od", group = "Discussion", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>oe", group = "Emoji", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>oi", group = "Issue", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>ol", group = "Label", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>op", group = "PR", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>or", group = "Review", icon = LazyVim.config.icons.ft.octo },
+          { "<leader>r", group = "Rest" },
           { "<leader>s", group = "Search" },
           { "<leader>u", group = "UI" },
           { "<leader>x", group = "Quickfix" },
@@ -42,13 +51,6 @@ return {
     }
   end,
   keys = {
-    {
-      "<leader>h",
-      function()
-        require("which-key").show({ global = false })
-      end,
-      desc = "Help",
-    },
     { "<leader>?", false },
   },
   config = function(_, opts)

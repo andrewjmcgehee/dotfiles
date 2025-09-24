@@ -40,9 +40,6 @@ return {
         gs.blame_line({ full = true })
       end, "Blame")
       map("n", "<leader>gd", gs.diffthis, "Diff")
-      map("n", "<leader>gD", function()
-        gs.diffthis("~")
-      end, "Diff ~")
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
     end,
   },

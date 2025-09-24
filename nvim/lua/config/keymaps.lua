@@ -53,7 +53,7 @@ vim.keymap.del("n", "<leader>ft") -- terminal in root
 -- git
 vim.keymap.set({ "n", "x" }, "<leader>gb", function()
   Snacks.gitbrowse()
-end, { desc = "Git Browse" })
+end, { desc = "Browse Repo" })
 vim.keymap.set("n", "<leader>gg", function()
   Snacks.lazygit({ cwd = LazyVim.root.git() })
 end, { desc = "LazyGit" })
@@ -67,7 +67,7 @@ vim.keymap.set({ "n", "x" }, "<leader>gy", function()
     end,
     notify = false,
   })
-end, { desc = "Git Yank URL" })
+end, { desc = "Yank Repo URL" })
 vim.keymap.del("n", "<leader>gB")
 vim.keymap.del("n", "<leader>gG")
 vim.keymap.del("n", "<leader>gY")

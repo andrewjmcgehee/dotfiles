@@ -8,7 +8,7 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 local function augroup(name)
-  return vim.api.nvim_create_augroup("ajm_" .. name, { clear = true })
+  return vim.api.nvim_create_augroup(name, { clear = true })
 end
 
 -- TODO: revisit this after we have ts lsp setup
@@ -30,6 +30,8 @@ end
 --     end
 --   end,
 -- })
+
+-- TODO: remove this in favor of telescope
 --
 -- maybe remove this with better telescope based vexplore / hexplore
 -- more intuitive netrw experience
@@ -41,6 +43,53 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_buf_set_keymap(opts.buf, "n", "<right>", "<enter>", {})
     vim.api.nvim_buf_set_keymap(opts.buf, "n", ".", "gh", {})
     vim.opt_local.statuscolumn = ""
+  end,
+})
+
+-- TODO: replace existing named augroup
+
+-- extend lazyvim's ability to close some filetypes with <q> and <esc>
+vim.api.nvim_clear_autocmds({ group = "lazyvim_close_with_q" })
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("close_with_q_or_esc"),
+  pattern = {
+    "PlenaryTestPopup",
+    "checkhealth",
+    "dbout",
+    "gitsigns-blame",
+    "grug-far",
+    "help",
+    "lspinfo",
+    "neotest-output",
+    "neotest-output-panel",
+    "neotest-summary",
+    "notify",
+    "qf",
+    "rip-substitute",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.schedule(function()
+      vim.keymap.set("n", "q", function()
+        vim.cmd("close")
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = "Quit",
+      })
+      vim.keymap.set("n", "<esc>", function()
+        vim.cmd("close")
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = "Quit",
+      })
+    end)
   end,
 })
 
