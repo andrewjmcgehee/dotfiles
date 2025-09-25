@@ -14,19 +14,22 @@ return {
         },
         view = "mini",
       },
+      -- skip msg_show patterns
       {
         filter = {
           event = "msg_show",
-          find = "lines",
+          any = {
+            { find = "%d+.*lines" },
+          },
         },
         opts = { skip = true },
       },
+      -- skip notify patterns
       {
         filter = {
           event = "notify",
           any = {
             { find = "No code actions" },
-            { find = "_typescript.didOrganizeImports" },
           },
         },
         opts = { skip = true },

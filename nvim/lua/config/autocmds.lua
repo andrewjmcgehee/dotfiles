@@ -11,24 +11,28 @@ local function augroup(name)
   return vim.api.nvim_create_augroup(name, { clear = true })
 end
 
-local function sync_code_action(name)
-  if LazyVim.lsp.action[name] ~= nil then
-    LazyVim.lsp.action[name]()
-    -- block for 50ms
-    vim.wait(50, function()
-      return false
-    end)
+local function organize_imports(args)
+  local ft = vim.bo[args.buf].filetype:gsub("react$", "")
+  -- TODO: look into which langs actually need / support organizeImports
+  --
+  -- if not vim.tbl_contains({ "javascript", "typescript" }, ft) then
+  --   return
+  -- end
+  local ok = vim.lsp.buf_request_sync(0, "workspace/executeCommand", {
+    command = (ft .. ".organizeImports"),
+    arguments = { vim.api.nvim_buf_get_name(args.buf) },
+  }, 3000)
+  if not ok then
+    LazyVim.warn("Organizing imports failed or timed out.")
   end
 end
 
--- TODO: look into which langs actually need / support this
---
 -- organize imports and format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
   group = augroup("autoformat"),
   callback = function(args)
-    sync_code_action("source.organizeImports")
+    organize_imports(args)
     require("conform").format({
       bufnr = args.buf,
       timeout_ms = 3000,
