@@ -15,21 +15,21 @@ return {
       function()
         require("curl").create_global_collection()
       end,
-      desc = "Create Rest Collection",
+      desc = "Add Rest File",
     },
     {
       "<leader>rd",
       function()
         require("curl").delete_global_collection()
       end,
-      desc = "Delete Rest Collection",
+      desc = "Delete Rest File",
     },
     {
-      "<leader>rl",
+      "<leader>ro",
       function()
         require("curl").pick_global_collection()
       end,
-      desc = "List Rest Collections",
+      desc = "Open Rest Collections",
     },
   },
 }
