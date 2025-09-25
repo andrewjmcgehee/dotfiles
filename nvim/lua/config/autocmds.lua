@@ -88,8 +88,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- TODO: maybe move this to its own module?
---
 -- video recorder
 local record_path = vim.fn.expand("~/Movies/")
 local function start_record()

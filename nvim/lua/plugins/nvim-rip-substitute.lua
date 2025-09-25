@@ -1,4 +1,3 @@
--- TODO: see if we can change the placement of this
 return {
   "chrisgrieser/nvim-rip-substitute",
   event = "LazyFile",
@@ -6,6 +5,7 @@ return {
   opts = {
     popupWin = {
       title = " Search & Replace",
+      position = "top",
     },
   },
   keys = {
