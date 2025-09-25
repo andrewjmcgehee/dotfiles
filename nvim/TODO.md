@@ -1,4 +1,0 @@
-# extras
-
-- testing
-  - neotest setups
