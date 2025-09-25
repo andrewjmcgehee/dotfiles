@@ -17,7 +17,17 @@ return {
       {
         filter = {
           event = "msg_show",
-          find = ".*lines.*",
+          find = "lines",
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "notify",
+          any = {
+            { find = "No code actions" },
+            { find = "_typescript.didOrganizeImports" },
+          },
         },
         opts = { skip = true },
       },

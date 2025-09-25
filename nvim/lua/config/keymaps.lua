@@ -96,6 +96,7 @@ vim.keymap.del("n", "<leader>uT") -- toggle treesitter highlighting
 vim.keymap.del("n", "<leader>uZ") -- toggle zoom mode
 vim.keymap.del("n", "<leader>ua") -- toggle animation
 vim.keymap.del("n", "<leader>ub") -- toggle dark mode
+vim.keymap.del("n", "<leader>uc") -- toggle dark mode
 vim.keymap.del("n", "<leader>ud") -- toggle diagnostics
 vim.keymap.del("n", "<leader>uf") -- toggle autoformat
 vim.keymap.del("n", "<leader>ug") -- toggle indent guides
@@ -106,9 +107,6 @@ vim.keymap.del("n", "<leader>ur") -- redraw
 vim.keymap.del("n", "<leader>uw") -- toggle wrap
 vim.keymap.del("n", "<leader>uz") -- toggle zen mode
 vim.keymap.del("n", "<leader>wm") -- toggle zoom mode
--- TODO: see what conceallevel toggling does in json file before unmapping this
---
--- Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
 -- unmap all tab controls (don't use tabs)
 vim.keymap.del("n", "<leader><tab>l")
 vim.keymap.del("n", "<leader><tab>o")

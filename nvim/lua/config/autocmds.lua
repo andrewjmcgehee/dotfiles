@@ -11,42 +11,33 @@ local function augroup(name)
   return vim.api.nvim_create_augroup(name, { clear = true })
 end
 
--- TODO: revisit this after we have ts lsp setup
---
--- format on save and run code actions
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = { "*" },
---   group = augroup("autoformat"),
---   callback = function(args)
---     require("conform").format({ bufnr = args.buf })
---     local buf = vim.api.nvim_get_current_buf()
---     local ft = vim.bo[buf].filetype
---     if ft == "typescript" or ft == "typescriptreact" then
---       vim.schedule(function()
---         lsp.execute_action("source.addMissingImports.ts")
---         lsp.execute_action("source.organizeImports.ts")
---         lsp.execute_action("source.removeUnused.ts")
---       end)
---     end
---   end,
--- })
+local function sync_code_action(name)
+  if LazyVim.lsp.action[name] ~= nil then
+    LazyVim.lsp.action[name]()
+    -- block for 50ms
+    vim.wait(50, function()
+      return false
+    end)
+  end
+end
 
--- TODO: remove this in favor of telescope
+-- TODO: look into which langs actually need / support this
 --
--- maybe remove this with better telescope based vexplore / hexplore
--- more intuitive netrw experience
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("netrw_remaps"),
-  pattern = "netrw",
-  callback = function(opts)
-    vim.api.nvim_buf_set_keymap(opts.buf, "n", "<left>", "-^", {})
-    vim.api.nvim_buf_set_keymap(opts.buf, "n", "<right>", "<enter>", {})
-    vim.api.nvim_buf_set_keymap(opts.buf, "n", ".", "gh", {})
-    vim.opt_local.statuscolumn = ""
+-- organize imports and format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*" },
+  group = augroup("autoformat"),
+  callback = function(args)
+    sync_code_action("source.organizeImports")
+    require("conform").format({
+      bufnr = args.buf,
+      timeout_ms = 3000,
+      async = false,
+      quiet = false,
+      lsp_format = "fallback",
+    })
   end,
 })
-
--- TODO: replace existing named augroup
 
 -- extend lazyvim's ability to close some filetypes with <q> and <esc>
 vim.api.nvim_clear_autocmds({ group = "lazyvim_close_with_q" })

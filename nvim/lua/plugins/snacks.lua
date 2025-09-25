@@ -108,7 +108,6 @@ return {
               section = "terminal",
               enabled = in_git,
               padding = 1,
-              ttl = 60, -- 1 minute
               indent = 3,
             }, cmd)
           end, cmds)
