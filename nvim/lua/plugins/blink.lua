@@ -12,7 +12,7 @@ return {
         },
         keymap = {
           preset = "none",
-          ["<right>"] = { "accept", "fallback" },
+          ["<right>"] = { "show", "accept", "fallback" },
           ["<left>"] = { "cancel", "fallback" },
           ["<esc>"] = { "cancel", "fallback" },
           ["<tab>"] = { "show", "accept", "fallback" },
@@ -35,13 +35,19 @@ return {
       },
       fuzzy = { implementation = "prefer_rust" },
       keymap = {
-        preset = "none",
-        ["<right>"] = { "accept", "snippet_forward", "fallback" },
+        preset = "super-tab",
+        ["<right>"] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept()
+            else
+              return cmp.select_and_accept()
+            end
+          end,
+          LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
+          "fallback",
+        },
         ["<left>"] = { "hide", "fallback" },
-        ["<tab>"] = { "accept", "snippet_forward", "fallback" },
-        ["<s-tab>"] = { "snippet_backward", "fallback" },
-        ["<up>"] = { "select_prev", "fallback" },
-        ["<down>"] = { "select_next", "fallback" },
       },
       signature = { enabled = true },
       snippets = {

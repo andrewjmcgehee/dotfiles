@@ -8,9 +8,6 @@ export LESSHISTFILE=/dev/null
 export NVM_DIR="$HOME/.nvm"
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && . "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-
 ##### ZSH 4 HUMANS #####
 # auto-update: "ask" or "no". run `z4h update` to update manually.
 zstyle ":z4h:" auto-update "ask"
@@ -47,16 +44,26 @@ zstyle ":z4h:zsh-syntax-highlighting" channel "stable"
 # init
 z4h init || return
 # export explicit path
+export MACOS_BARE_PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 export BUN_INSTALL="$HOME/.bun"
-PATH=$BUN_INSTALL:$HOME/.cargo/bin:$GOPATH/bin:/opt/homebrew/opt/postgresql@17/bin
-PATH=$PATH:$HOME/.local/share/nvim/mason/bin:/opt/homebrew/share/google-cloud-sdk/bin
-PATH=$PATH:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin
-PATH=$PATH:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin
-PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
-PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
-PATH=$PATH:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PATH=$PATH/Applications/iTerm.app/Contents/Resources/utilities:$HOME/.cache/zsh4humans/v5/fzf/bin
+# in reverse order of priority
+PATH=$MACOS_BARE_PATH # mac defaults
+PATH=$HOME/.config/scripts:$PATH # personal scripts
+PATH=$HOME/.local/bin:$PATH # local bin
+PATH=$HOME/.cache/zsh4humans/v5/fzf/bin:$PATH # zsh4humans fzf
+PATH=/opt/homebrew/opt/postgresql@17/bin:$PATH # postgres 17
+PATH=/opt/homebrew/share/google-cloud-sdk/bin:$PATH # gcloud
+PATH=/opt/homebrew/opt/ruby/bin:$PATH # ruby
+PATH=$BUN_INSTALL:$PATH # bun
+PATH=$HOME/.cargo/bin:$PATH # cargo (rust)
+PATH=$GOPATH/bin:$PATH # go
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH # homebrew
+PATH=$HOME/.local/share/nvim/mason/bin:$PATH # neovim mason
 export PATH
+
+# nvm (must come after PATH definition because this modifies PATH)
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && . "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+
 # extend fpath with custom completions
 fpath=($ZDOTDIR/completions /opt/homebrew/share/zsh/site-functions $fpath)
 autoload bashcompinit && bashcompinit
@@ -173,7 +180,6 @@ bindkey "^W" fzf-ws
 bindkey -r "^R"
 
 # Google Cloud SDK completions
-source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
 source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 
 # Terraform completions
@@ -184,7 +190,7 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 setopt glob_dots # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
 
-# aws completion
+# AWS completions
 complete -C "/opt/homebrew/bin/aws_completer" aws
 complete -C "/opt/homebrew/bin/aws_completer" awslocal
 
