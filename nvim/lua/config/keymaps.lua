@@ -2,6 +2,9 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- swap 0 and ^
+vim.keymap.set("n", "0", "^")
+vim.keymap.set("n", "^", "0")
 -- unset alt keymaps (don't work on mac os)
 vim.keymap.del("n", "<A-j>")
 vim.keymap.del("n", "<A-k>")
