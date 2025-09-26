@@ -1,16 +1,30 @@
 return {
   "nvim-telescope/telescope.nvim",
+  opts = {
+    defaults = {
+      file_ignore_patterns = {
+        "node_modules/",
+        "__pycache__/",
+      },
+    },
+  },
   keys = {
     {
       "<leader>fb",
       "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
       desc = "Buffer",
     },
-    { "<leader>fc", LazyVim.pick.config_files(), desc = "Config" },
-    { "<leader>ff", LazyVim.pick("files"), desc = "File" },
-    { "<leader>fg", LazyVim.pick("live_grep"), desc = "Grep" },
-    { "<leader>fr", "<cmd>Telescope oldfiles prompt_title=Find\\ Recent<cr>", desc = "Recent" },
-    { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
+    { "<leader>fc", LazyVim.pick.config_files(), desc = "Config Files" },
+    { "<leader>ff", LazyVim.pick("files"), desc = "File in CWD" },
+    { "<leader>fg", LazyVim.pick("live_grep"), desc = "Grep in CWD" },
+    {
+      "<leader>fh",
+      "<cmd>Telescope find_files cwd=~ search_dirs=~/.config,~/Desktop,~/Documents,~/Downloads,~/Notes,~/Workspaces<cr>",
+      desc = "File in Home",
+    },
+    { "<leader>fn", "<cmd>Telescope live_grep cwd=$HOME/Notes prompt_title=Find Note<cr>", desc = "Notes" },
+    { "<leader>fr", "<cmd>Telescope oldfiles prompt_title=Find\\ Recent<cr>", desc = "Recents" },
+    { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Commits" },
     { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Autocommands" },
     { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
