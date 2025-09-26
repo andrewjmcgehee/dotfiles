@@ -5,8 +5,8 @@ check() {
 }
 
 check-msg() {
-  if ! check $1; then
-    echo $2
+  if ! check "$1"; then
+    echo "$2"
     exit 1
   fi
 }
@@ -53,42 +53,42 @@ status() {
 }
 
 brew-install() {
-  printf "    📦 $1 "
-  if check $1; then
+  printf "    📦 %s " "$1"
+  if check "$1"; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
-      brew install $1 &>/dev/null
+      brew install "$1" &>/dev/null
     else
-      brew install $2 &>/dev/null
+      brew install "$2" &>/dev/null
     fi
   fi
   status
 }
 
 go-install() {
-  printf "    📦 $1 "
-  if check $1; then
+  printf "    📦 %s " "$1"
+  if check "$1"; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
-      go install $1 &>/dev/null
+      go install "$1" &>/dev/null
     else
-      go install $2 &>/dev/null
+      go install "$2" &>/dev/null
     fi
   fi
   status
 }
 
 npm-install() {
-  printf "    📦 $1 "
-  if check $1; then
+  printf "    📦 %s " "$1"
+  if check "$1"; then
     printf "already installed "
   else
     if [ -z "$2" ]; then
-      npm i -g $1 &>/dev/null
+      npm i -g "$1" &>/dev/null
     else
-      npm i -g $2 &>/dev/null
+      npm i -g "$2" &>/dev/null
     fi
   fi
   status
