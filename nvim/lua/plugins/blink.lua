@@ -6,13 +6,17 @@ return {
       cmdline = {
         enabled = true,
         completion = {
-          menu = { auto_show = true },
+          menu = {
+            auto_show = function(_)
+              return vim.fn.getcmdtype() == ":"
+            end,
+          },
           list = { selection = { preselect = true, auto_insert = true } },
           ghost_text = { enabled = true },
         },
         keymap = {
           preset = "none",
-          ["<right>"] = { "show", "accept", "fallback" },
+          ["<right>"] = { "accept", "fallback" },
           ["<left>"] = { "cancel", "fallback" },
           ["<esc>"] = { "cancel", "fallback" },
           ["<tab>"] = { "show", "accept", "fallback" },

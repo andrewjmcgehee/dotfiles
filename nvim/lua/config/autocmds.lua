@@ -13,17 +13,26 @@ end
 
 local function organize_imports(args)
   local ft = vim.bo[args.buf].filetype:gsub("react$", "")
-  -- TODO: look into which langs actually need / support organizeImports
-  --
-  -- if not vim.tbl_contains({ "javascript", "typescript" }, ft) then
-  --   return
-  -- end
-  local ok = vim.lsp.buf_request_sync(0, "workspace/executeCommand", {
-    command = (ft .. ".organizeImports"),
-    arguments = { vim.api.nvim_buf_get_name(args.buf) },
-  }, 3000)
-  if not ok then
-    LazyVim.warn("Organizing imports failed or timed out.")
+  if ft == "javascript" then
+    ft = "typescript"
+  end
+  if ft == "typescript" then
+    LazyVim.try(function()
+      return vim.lsp.buf_request_sync(0, "workspace/executeCommand", {
+        command = (ft .. ".organizeImports"),
+        arguments = { vim.api.nvim_buf_get_name(args.buf) },
+      }, 2000)
+    end, {
+      on_error = LazyVim.warn,
+    })
+  elseif ft == "java" then
+    LazyVim.try(function()
+      require("jdtls").organize_imports()
+    end, {
+      on_error = LazyVim.warn,
+    })
+  else
+    return
   end
 end
 
