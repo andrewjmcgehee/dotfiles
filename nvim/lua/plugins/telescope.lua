@@ -1,3 +1,75 @@
+local function add_parsed_snippets(filepath, ft, snippets)
+  if vim.fn.filereadable(filepath) == 1 then
+    local ok, content = pcall(vim.fn.readfile, filepath)
+    if ok then
+      local json_ok, data = pcall(vim.json.decode, table.concat(content, "\n"))
+      if json_ok and type(data) == "table" then
+        for name, snippet_data in pairs(data) do
+          if type(snippet_data) == "table" and snippet_data.prefix then
+            local prefixes = snippet_data.prefix
+            if type(prefixes) == "string" then
+              prefixes = { prefixes }
+            end
+            for _, prefix in ipairs(prefixes) do
+              table.insert(snippets, {
+                trigger = prefix,
+                description = snippet_data.description or name,
+                filetype = ft,
+                body = snippet_data.body,
+              })
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+local function get_snippets()
+  local snippets = {}
+  local ft = vim.bo[0].filetype
+  local snippet_base = vim.fn.stdpath("data") .. "/lazy/friendly-snippets/snippets/" .. ft
+  local snippet_file = snippet_base .. ".json"
+  local snippet_glob = snippet_base .. "/*.json"
+  add_parsed_snippets(snippet_file, ft, snippets)
+  if vim.fn.isdirectory(snippet_base) == 1 then
+    local files = vim.fn.glob(snippet_glob, false, true)
+    for _, file in ipairs(files) do
+      add_parsed_snippets(file, ft, snippets)
+    end
+  end
+  table.sort(snippets, function(a, b)
+    return a.trigger < b.trigger
+  end)
+  return snippets
+end
+
+local function snippet_picker()
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
+  local snippets = get_snippets()
+  if #snippets == 0 then
+    vim.notify("No snippets found for current buffer", vim.log.levels.WARN)
+    return
+  end
+  pickers
+    .new({}, {
+      prompt_title = "Snippets",
+      finder = finders.new_table({
+        results = snippets,
+        entry_maker = function(entry)
+          local display = string.format("%-12s │ %s", entry.trigger, entry.description)
+          return {
+            value = entry,
+            display = display,
+            ordinal = entry.trigger .. " " .. entry.description,
+          }
+        end,
+      }),
+    })
+    :find()
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   opts = {
@@ -6,6 +78,7 @@ return {
         "node_modules/",
         "__pycache__/",
       },
+      sorting_strategy = "ascending",
     },
   },
   keys = {
@@ -24,6 +97,7 @@ return {
     },
     { "<leader>fn", "<cmd>Telescope live_grep cwd=$HOME/Notes prompt_title=Find Note<cr>", desc = "Notes" },
     { "<leader>fr", "<cmd>Telescope oldfiles prompt_title=Find\\ Recent<cr>", desc = "Recents" },
+    { "<leader>fs", snippet_picker, desc = "Snippets" },
     { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Commits" },
     { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Autocommands" },
