@@ -6,6 +6,7 @@ return {
     opts.icons = {
       rules = {
         { pattern = "rest", icon = "󰖟 ", color = "blue" },
+        { pattern = "note", icon = "󰙏 ", color = "green" },
       },
     }
     return {

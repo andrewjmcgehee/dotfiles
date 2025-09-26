@@ -3,8 +3,9 @@ local repo_pattern = "https://github.com/(.*)"
 return {
   "folke/snacks.nvim",
   keys = {
+    { "<leader>n", false },
     {
-      "<leader>n",
+      "<leader>N",
       function()
         Snacks.notifier.show_history()
       end,
@@ -109,6 +110,7 @@ return {
               enabled = in_git,
               padding = 1,
               indent = 3,
+              ttl = 0,
             }, cmd)
           end, cmds)
         end,

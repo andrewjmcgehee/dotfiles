@@ -30,6 +30,14 @@ return {
       },
       formatters = {
         injected = { options = { ignore_errors = true } },
+        ["markdownlint-cli2"] = {
+          args = {
+            "--config",
+            vim.fn.expand("$XDG_CONFIG_HOME/markdownlint-cli2/.markdownlint-cli2.yaml"),
+            "--fix",
+            "$FILENAME",
+          },
+        },
       },
     }
   end,
