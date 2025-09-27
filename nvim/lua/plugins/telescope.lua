@@ -1,3 +1,7 @@
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local config = require("telescope.config").values
+
 local function add_parsed_snippets(filepath, ft, snippets)
   if vim.fn.filereadable(filepath) == 1 then
     local ok, content = pcall(vim.fn.readfile, filepath)
@@ -44,21 +48,24 @@ local function get_snippets()
   return snippets
 end
 
-local function snippet_picker()
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
+local function snippet_picker(opts)
+  opts = opts or {}
   local snippets = get_snippets()
   if #snippets == 0 then
-    vim.notify("No snippets found for current buffer", vim.log.levels.WARN)
+    vim.notify("No snippets found for the current buffer", vim.log.levels.INFO)
     return
   end
   pickers
-    .new({}, {
+    .new(opts, {
       prompt_title = "Snippets",
       finder = finders.new_table({
         results = snippets,
         entry_maker = function(entry)
-          local display = string.format("%-12s │ %s", entry.trigger, entry.description)
+          local max_description = 80
+          if #entry.description > max_description then
+            entry.description = string.sub(entry.description, 1, max_description - 3) .. "..."
+          end
+          local display = string.format("%-20s │ %s", entry.trigger, entry.description)
           return {
             value = entry,
             display = display,
@@ -66,6 +73,7 @@ local function snippet_picker()
           }
         end,
       }),
+      sorter = config.generic_sorter(opts),
     })
     :find()
 end
@@ -78,7 +86,7 @@ return {
         "node_modules/",
         "__pycache__/",
       },
-      sorting_strategy = "ascending",
+      -- sorting_strategy = "ascending",
     },
   },
   keys = {
@@ -97,7 +105,6 @@ return {
     },
     { "<leader>fn", "<cmd>Telescope live_grep cwd=$HOME/Notes prompt_title=Find Note<cr>", desc = "Notes" },
     { "<leader>fr", "<cmd>Telescope oldfiles prompt_title=Find\\ Recent<cr>", desc = "Recents" },
-    { "<leader>fs", snippet_picker, desc = "Snippets" },
     { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Commits" },
     { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Autocommands" },
@@ -112,23 +119,15 @@ return {
     { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Marks" },
     { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Opts" },
     { "<leader>sq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix" },
+    { "<leader>ss", snippet_picker, desc = "Snippets" },
     {
-      "<leader>ss",
+      "<leader>sS",
       function()
         require("telescope.builtin").lsp_document_symbols({
           symbols = LazyVim.config.get_kind_filter(),
         })
       end,
       desc = "Symbols",
-    },
-    {
-      "<leader>sS",
-      function()
-        require("telescope.builtin").lsp_dynamic_workspace_symbols({
-          symbols = LazyVim.config.get_kind_filter(),
-        })
-      end,
-      desc = "Symbols (Workspace)",
     },
     -- disabled
     { "<leader>,", false }, -- buffers
