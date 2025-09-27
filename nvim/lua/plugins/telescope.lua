@@ -103,7 +103,7 @@ return {
       "<cmd>Telescope find_files cwd=~ search_dirs=~/.config,~/Desktop,~/Documents,~/Downloads,~/Notes,~/Workspaces<cr>",
       desc = "File in Home",
     },
-    { "<leader>fn", "<cmd>Telescope live_grep cwd=$HOME/Notes prompt_title=Find Note<cr>", desc = "Notes" },
+    { "<leader>fn", "<cmd>Telescope live_grep cwd=~/Notes prompt_title=Find\\ Note<cr>", desc = "Notes" },
     { "<leader>fr", "<cmd>Telescope oldfiles prompt_title=Find\\ Recent<cr>", desc = "Recents" },
     { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Commits" },
     { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },

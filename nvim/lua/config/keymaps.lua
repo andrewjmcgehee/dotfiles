@@ -51,7 +51,6 @@ vim.keymap.del("n", "<leader>S") -- open scratch buffer
 vim.keymap.del("n", "<leader>cd") -- disable line diagnostics in favor of [d or ]d
 vim.keymap.del("n", "<leader>cf") -- manual format (unused)
 vim.keymap.del("n", "<leader>fT") -- terminal in cwd
-vim.keymap.del("n", "<leader>fn") -- new file
 vim.keymap.del("n", "<leader>ft") -- terminal in root
 -- git
 vim.keymap.set({ "n", "x" }, "<leader>gb", function()

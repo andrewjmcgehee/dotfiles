@@ -17,7 +17,7 @@ return {
         {
           mode = { "n", "v" },
           { "<leader>c", group = "Code" },
-          { "<leader>f", group = "Find" },
+          { "<leader>f", group = "File" },
           { "<leader>g", group = "Git", icon = LazyVim.config.icons.ft.octo },
           { "<leader>o", group = "Octo", icon = LazyVim.config.icons.ft.octo },
           { "<leader>oa", group = "Assignee", icon = LazyVim.config.icons.ft.octo },
