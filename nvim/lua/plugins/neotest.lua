@@ -9,19 +9,6 @@ return {
     "rouge8/neotest-rust",
     "thenbe/neotest-playwright",
   },
-  opts = {
-    adapters = {
-      ["neotest-bun"] = {},
-      ["neotest-golang"] = {},
-      ["neotest-jest"] = {},
-      ["neotest-playwright"] = {},
-      ["neotest-python"] = {
-        args = { "-vvv" },
-      },
-      ["neotest-rust"] = {},
-      ["neotest-vitest"] = {},
-    },
-  },
   keys = {
     { "<leader>tT", false },
     { "<leader>tr", false },
@@ -90,4 +77,54 @@ return {
       desc = "Toggle Test Watch",
     },
   },
+  config = function(opts)
+    vim.diagnostic.config({
+      virtual_text = {
+        format = function(diagnostic)
+          -- replace newline and tab characters with space for more compact diagnostics
+          local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+          return message
+        end,
+      },
+    }, vim.api.nvim_create_namespace("neotest"))
+    if LazyVim.has("trouble.nvim") then
+      opts.consumers = opts.consumers or {}
+      opts.consumers.trouble = function(client)
+        client.listeners.results = function(adapter_id, results, partial)
+          if partial then
+            return
+          end
+          local tree = assert(client:get_position(nil, { adapter = adapter_id }))
+          local failed = 0
+          for pos_id, result in pairs(results) do
+            if result.status == "failed" and tree:get_key(pos_id) then
+              failed = failed + 1
+            end
+          end
+          vim.schedule(function()
+            local trouble = require("trouble")
+            if trouble.is_open() then
+              trouble.refresh()
+              if failed == 0 then
+                trouble.close()
+              end
+            end
+          end)
+          return {}
+        end
+      end
+    end
+    opts.adapters = {
+      require("neotest-bun"),
+      require("neotest-golang"),
+      require("neotest-jest"),
+      require("neotest-playwright").adapter({}),
+      require("neotest-python")({
+        args = { "-vvv" },
+      }),
+      require("neotest-rust"),
+      require("neotest-vitest"),
+    }
+    require("neotest").setup(opts)
+  end,
 }
