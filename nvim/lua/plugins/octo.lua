@@ -83,12 +83,13 @@ return {
     { "<leader>ord", "<cmd>Octo review discard<CR>", desc = "Discard Review" },
     { "<leader>ore", "<cmd>Octo review resume<CR>", desc = "Edit Review" },
     { "<leader>orp", "<cmd>Octo review submit<CR>", desc = "Publish Review" },
-    { "<leader>orq", "<cmd>Octo review submit<CR>", desc = "Close Review Tab" },
+    { "<leader>orq", "<cmd>Octo review close<CR>", desc = "Close Review Tab" },
+    -- TODO: list collaborators for assign review and list reviewers on unassign
     {
       "<leader>orr",
       function()
         local reviewer = vim.fn.input({
-          prompt = "Reviewer: ",
+          prompt = "Assign Reviewer: ",
           highlight = function(input)
             return { { 0, #input, "String" } }
           end,
@@ -97,6 +98,18 @@ return {
       end,
       desc = "Assign Reviewer",
     },
-    { "<leader>orx", "<cmd>Octo reviewer delete<CR>", desc = "Unassign Reviewer" },
+    {
+      "<leader>orx",
+      function()
+        local reviewer = vim.fn.input({
+          prompt = "Unassign Reviewer: ",
+          highlight = function(input)
+            return { { 0, #input, "String" } }
+          end,
+        })
+        vim.cmd("Octo reviewer remove " .. reviewer)
+      end,
+      desc = "Unassign Reviewer",
+    },
   },
 }
