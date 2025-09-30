@@ -68,6 +68,7 @@ brew-install luajit
 brew-install luarocks
 brew-install neovim
 brew-install node
+brew-install nvm
 brew-install packer hashicorp/tap/packer
 brew-install python@3.13
 brew-install ripgrep
