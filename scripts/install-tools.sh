@@ -75,6 +75,7 @@ brew-install ruby
 brew-install skhd koekeishiya/formulae/skhd
 brew-install terraform hashicorp/tap/terraform
 brew-install tmux
+brew-install tree
 brew-install tree-sitter
 
 # go install requires brew to install go
