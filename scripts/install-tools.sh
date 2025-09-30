@@ -23,7 +23,7 @@ status() {
 }
 
 brew-install() {
-  printf "    📦 %s " "$1"
+  printf "  📦 %s " "$1"
   if [ -z "$2" ]; then
     brew install "$1" &>/dev/null
   else
@@ -33,7 +33,7 @@ brew-install() {
 }
 
 go-install() {
-  printf "    📦 %s " "$1"
+  printf "  📦 %s " "$1"
   if [ -z "$2" ]; then
     go install "$1" &>/dev/null
   else
@@ -43,7 +43,7 @@ go-install() {
 }
 
 npm-install() {
-  printf "    📦 %s " "$1"
+  printf "  📦 %s " "$1"
   if [ -z "$2" ]; then
     npm i -g "$1" &>/dev/null
   else
@@ -52,7 +52,7 @@ npm-install() {
   status
 }
 
-echo "⚡️ installing tools..."
+echo "⚡️ installing brew tools..."
 brew-install coreutils
 brew-install fd
 brew-install font-jetbrains-mono-nerd-font
@@ -78,18 +78,22 @@ brew-install tmux
 brew-install tree-sitter
 
 # go install requires brew to install go
+echo "⚡️ installing go tools..."
+go-install air github.com/air-verse/air@latest
+go-install goose github.com/pressly/goose/v3/cmd/goose@latest
 go-install gosec github.com/securego/gosec/v2/cmd/gosec@latest
+go-install sqlc github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+go-install templ github.com/a-h/templ/cmd/templ@latest
 
 # npm install requires brew to install node
 
 # start services
 skhd --start-service
 
-OTHER_TOOLS=("Alfred" "Magnet" "Zen Browser")
+OTHER_TOOLS=("alfred" "magnet" "zen browser")
 
-printf "\n"
-echo "Other tools you normally like and use:"
+echo "⚡️ other tools you normally like and use..."
 
 for tool in "${OTHER_TOOLS[@]}"; do
-  echo "    🔧 $tool"
+  echo "  🔧 $tool"
 done
