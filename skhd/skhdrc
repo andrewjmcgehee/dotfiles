@@ -1,4 +1,5 @@
 alt - 1 : open -a Kitty.app
 alt - 2 : open -a Zen.app
 alt - 3 : open -a "Docker Desktop.app"
-alt - 4 : osascript $HOME/.config/scripts/open-osrs.scpt
+alt - 4 : open -a "Slack.app"
+alt - 5 : osascript $HOME/.config/scripts/open-osrs.scpt

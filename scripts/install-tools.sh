@@ -85,6 +85,11 @@ go-install gosec github.com/securego/gosec/v2/cmd/gosec@latest
 # start services
 skhd --start-service
 
-OTHER_TOOLS=("Alfred" "Magent" "Zen")
+OTHER_TOOLS=("Alfred" "Magnet" "Zen Browser")
 
-echo "Other tools you normally like and use: ${OTHER_TOOLS[*]}"
+printf "\n"
+echo "Other tools you normally like and use:"
+
+for tool in "${OTHER_TOOLS[@]}"; do
+  echo "    🔧 $tool"
+done
