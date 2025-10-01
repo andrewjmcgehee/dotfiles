@@ -4,11 +4,11 @@
 alias \
   L="gls -AFNhl --color=auto --group-directories-first" \
   act="source .venv/bin/activate" \
-  cfg="cd $HOME/.config" \
-  cfk="cd $HOME/.config/kitty" \
-  cfn="cd $HOME/.config/nvim" \
-  cft="cd $HOME/.config/tmux" \
-  cfz="cd $ZDOTDIR" \
+  cfg='cd $HOME/.config' \
+  cfk='cd $HOME/.config/kitty' \
+  cfn='cd $HOME/.config/nvim' \
+  cft='cd $HOME/.config/tmux' \
+  cfz='cd $ZDOTDIR' \
   clear="z4h-clear-screen-soft-bottom" \
   cls="z4h-clear-screen-soft-bottom" \
   cp="cp -iv" \
@@ -32,14 +32,14 @@ alias \
   p3="python3" \
   rm="rm -v" \
   sdn="sudo shutdown -h now" \
-  so="source $ZDOTDIR/.zshrc" \
+  so='source $ZDOTDIR/.zshrc' \
   t="tail" \
   todo="godoit" \
   tmls="tmux ls" \
   v="nvim" \
-  vfa="$EDITOR $HOME/.config/aliasrc" \
-  vfg="$EDITOR $HOME/.config" \
-  vfk="$EDITOR $HOME/.config/kitty/kitty.conf" \
-  vfn="$EDITOR $HOME/.config/nvim" \
-  vft="$EDITOR $HOME/.config/tmux/tmux.conf" \
-  vfz="$EDITOR $ZDOTDIR/.zshrc"
+  vfa='$EDITOR $HOME/.config/aliasrc' \
+  vfg='$EDITOR $HOME/.config' \
+  vfk='$EDITOR $HOME/.config/kitty/kitty.conf' \
+  vfn='$EDITOR $HOME/.config/nvim' \
+  vft='$EDITOR $HOME/.config/tmux/tmux.conf' \
+  vfz='$EDITOR $ZDOTDIR/.zshrc'

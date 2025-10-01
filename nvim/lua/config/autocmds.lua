@@ -98,6 +98,28 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+local dashboard_once = false
+
+-- fix annoying Snacks explorer behavior
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("dir_explorer"),
+  pattern = {
+    "snacks_dashboard",
+  },
+  callback = function(_)
+    if dashboard_once then
+      return
+    end
+    dashboard_once = true
+    local arg = vim.fn.argv(0)
+    ---@cast arg string
+    local path = vim.fn.fnamemodify(arg, ":p")
+    if vim.fn.isdirectory(path) == 1 then
+      Snacks.explorer({ cwd = path })
+    end
+  end,
+})
+
 -- video recorder
 local record_path = vim.fn.expand("~/Movies/")
 local function start_record()

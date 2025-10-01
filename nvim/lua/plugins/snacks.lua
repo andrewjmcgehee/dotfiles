@@ -116,6 +116,9 @@ return {
         end,
       },
     },
+    explorer = {
+      replace_netrw = false,
+    },
     picker = {
       sources = {
         explorer = {
