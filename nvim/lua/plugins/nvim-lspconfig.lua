@@ -1,6 +1,13 @@
 return {
   "neovim/nvim-lspconfig",
   opts = function(_, opts)
+    if opts.servers and opts.servers["bashls"] then
+      opts.servers["bashls"] = { filetypes = {
+        "sh",
+        "bash",
+        "zsh",
+      } }
+    end
     opts.inlay_hints = { enabled = false }
     opts.codelens = { enabled = false }
     local keys = require("lazyvim.plugins.lsp.keymaps").get()

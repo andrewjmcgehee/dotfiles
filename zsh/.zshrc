@@ -16,11 +16,7 @@ zstyle ":z4h:" auto-update-days "28"
 # keyboard type: "mac" or "pc".
 zstyle ":z4h:bindkey" keyboard "mac"
 # start tmux
-if [[ $TERM == "xterm-kitty" ]]; then
-  zstyle ":z4h:" start-tmux command tmux -u new -A -s work
-else
-  zstyle ":z4h:" start-tmux "no"
-fi
+zstyle ":z4h:" start-tmux command tmux -u new -A -s work
 # keep prompt at bottom
 zstyle ":z4h:" prompt-at-bottom "yes"
 # no additional semantic shell info
@@ -28,8 +24,7 @@ zstyle ":z4h:" term-shell-integration "no"
 # "partial-accept" accepts 1 char from command autosuggestions, "accept" accepts the whole suggestion
 zstyle ":z4h:autosuggestions" forward-char "accept"
 # recursive directory completion with fzf
-zstyle ":z4h:fzf-complete" recurse-dirs "no"
-zstyle ":z4h:*" fzf-flags --color=hl:6,hl+:6
+zstyle ":z4h:fzf-complete" recurse-dirs "yes"
 # ssh teleport
 zstyle ":z4h:ssh:*" enable "no"
 # zstyle ":z4h:ssh:*" send-extra-files "~/.config/aliasrc" "~/.config/tmux/tmux.conf" "~/.config/fd/ignore" "~/.config/nvim"
@@ -47,25 +42,25 @@ z4h init || return
 export MACOS_BARE_PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 export BUN_INSTALL="$HOME/.bun"
 # in reverse order of priority
-PATH=$MACOS_BARE_PATH # mac defaults
-PATH=$HOME/.config/scripts:$PATH # personal scripts
-PATH=$HOME/.local/bin:$PATH # local bin
-PATH=$HOME/.cache/zsh4humans/v5/fzf/bin:$PATH # zsh4humans fzf
-PATH=/opt/homebrew/opt/postgresql@17/bin:$PATH # postgres 17
-PATH=/opt/homebrew/share/google-cloud-sdk/bin:$PATH # gcloud
-PATH=/opt/homebrew/opt/ruby/bin:$PATH # ruby
-PATH=$BUN_INSTALL:$PATH # bun
-PATH=$HOME/.cargo/bin:$PATH # cargo (rust)
-PATH=$GOPATH/bin:$PATH # go
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH # homebrew
-PATH=$HOME/.local/share/nvim/mason/bin:$PATH # neovim mason
+PATH="$MACOS_BARE_PATH" # mac defaults
+PATH="$HOME/.config/scripts:$PATH" # personal scripts
+PATH="$HOME/.local/bin:$PATH" # local bin
+PATH="$HOME/.cache/zsh4humans/v5/fzf/bin:$PATH" # zsh4humans fzf
+PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" # postgres 17
+PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH" # gcloud
+PATH="/opt/homebrew/opt/ruby/bin:$PATH" # ruby
+PATH="$BUN_INSTALL:$PATH" # bun
+PATH="$HOME/.cargo/bin:$PATH" # cargo (rust)
+PATH="$GOPATH/bin:$PATH" # go
+PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH" # homebrew
+PATH="$HOME/.local/share/nvim/mason/bin:$PATH" # neovim mason
 export PATH
 
 # nvm (must come after PATH definition because this modifies PATH)
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && . "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
 
 # extend fpath with custom completions
-fpath=($ZDOTDIR/completions /opt/homebrew/share/zsh/site-functions $fpath)
+fpath=(/opt/homebrew/share/zsh/site-functions $ZDOTDIR/completions $fpath)
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 # export environment vars
@@ -147,7 +142,7 @@ autoload -U colors && colors
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # aliases
-[ -f $HOME/.config/aliasrc ] && source $HOME/.config/aliasrc
+[[ -f "$HOME/.config/aliasrc" ]] && source "$HOME/.config/aliasrc"
 
 # ls colors
 export LSCOLORS=Exfxcxdxbxegedabagacad
@@ -179,10 +174,13 @@ bindkey "^J" fzf-cd
 bindkey "^W" fzf-ws
 bindkey -r "^R"
 
-# Google Cloud SDK completions
+# orbstack completions
+source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+
+# gcloud completions
 source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 
-# Terraform completions
+# terraform completions
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
@@ -190,8 +188,6 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 setopt glob_dots # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
 
-# AWS completions
+# aws completions
 complete -C "/opt/homebrew/bin/aws_completer" aws
 complete -C "/opt/homebrew/bin/aws_completer" awslocal
-
-alias claude="$HOME/.claude/local/claude"
