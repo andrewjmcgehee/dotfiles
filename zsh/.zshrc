@@ -1,14 +1,19 @@
-##### KEEP HOME CLEAN #####
+# keep home dir clean
 export EDITOR=nvim
-export GOPATH=$HOME/Go
-export HISTFILE=$HOME/.config/zsh/.zsh_history
+export GOPATH="$HOME/Go"
 export HISTSIZE=10000
 export LESS=-R
 export LESSHISTFILE=/dev/null
 export NVM_DIR="$HOME/.nvm"
+# xdg config vars
 export XDG_CONFIG_HOME="$HOME/.config"
-
-##### ZSH 4 HUMANS #####
+export HISTFILE="$XDG_CONFIG_HOME/zsh/.zsh_history"
+# fzf vars
+export FZF_DEFAULT_OPTS="--color=bg+:#2d3f76,bg:#1e2030,border:#589ed7,fg:4,hl+:3,hl:3,info:#545c7e,marker:#ff007c,pointer:#ff007c,prompt:#65bcff,spinner:#ff007c,header:#ff966c,gutter:#222436"
+export FZF_ALT_C_COMMAND="fd --type d . $HOME --hidden --follow | sort"
+export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow | sort"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# z4h
 # auto-update: "ask" or "no". run `z4h update` to update manually.
 zstyle ":z4h:" auto-update "ask"
 # how often to auto-update. no effect if auto-update is "no".
@@ -24,12 +29,13 @@ zstyle ":z4h:" term-shell-integration "no"
 # "partial-accept" accepts 1 char from command autosuggestions, "accept" accepts the whole suggestion
 zstyle ":z4h:autosuggestions" forward-char "accept"
 # recursive directory completion with fzf
+zstyle ":z4h:*" fzf-flags $FZF_DEFAULT_OPTS
 zstyle ":z4h:fzf-complete" recurse-dirs "yes"
 # ssh teleport
 zstyle ":z4h:ssh:*" enable "no"
 # zstyle ":z4h:ssh:*" send-extra-files "~/.config/aliasrc" "~/.config/tmux/tmux.conf" "~/.config/fd/ignore" "~/.config/nvim"
-zstyle ":completion:*:ssh:argument-1:"       tag-order    hosts users
-zstyle ":completion:*:scp:argument-rest:"    tag-order    hosts files users
+zstyle ":completion:*:ssh:argument-1:" tag-order hosts users
+zstyle ":completion:*:scp:argument-rest:" tag-order hosts files users
 zstyle ":completion:*:(ssh|scp|rdp):*:hosts" hosts
 # use most up to date version of zsh-history-substring-search
 zstyle ":z4h:zsh-autosuggestions" channel "dev"
@@ -42,18 +48,18 @@ z4h init || return
 export MACOS_BARE_PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 export BUN_INSTALL="$HOME/.bun"
 # in reverse order of priority
-PATH="$MACOS_BARE_PATH" # mac defaults
-PATH="$HOME/.config/scripts:$PATH" # personal scripts
-PATH="$HOME/.local/bin:$PATH" # local bin
-PATH="$HOME/.cache/zsh4humans/v5/fzf/bin:$PATH" # zsh4humans fzf
-PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" # postgres 17
+PATH="$MACOS_BARE_PATH"                               # mac defaults
+PATH="$HOME/.config/scripts:$PATH"                    # personal scripts
+PATH="$HOME/.local/bin:$PATH"                         # local bin
+PATH="$HOME/.cache/zsh4humans/v5/fzf/bin:$PATH"       # zsh4humans fzf
+PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"      # postgres 17
 PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH" # gcloud
-PATH="/opt/homebrew/opt/ruby/bin:$PATH" # ruby
-PATH="$BUN_INSTALL:$PATH" # bun
-PATH="$HOME/.cargo/bin:$PATH" # cargo (rust)
-PATH="$GOPATH/bin:$PATH" # go
-PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH" # homebrew
-PATH="$HOME/.local/share/nvim/mason/bin:$PATH" # neovim mason
+PATH="/opt/homebrew/opt/ruby/bin:$PATH"               # ruby
+PATH="$BUN_INSTALL:$PATH"                             # bun
+PATH="$HOME/.cargo/bin:$PATH"                         # cargo (rust)
+PATH="$GOPATH/bin:$PATH"                              # go
+PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"     # homebrew
+PATH="$HOME/.local/share/nvim/mason/bin:$PATH"        # neovim mason
 export PATH
 
 # nvm (must come after PATH definition because this modifies PATH)
@@ -72,11 +78,7 @@ g() {
   /opt/homebrew/bin/lazygit "$@"
 }
 
-# tmux
-tm() {
-  tmux new -A -s ${1:-work}
-}
-
+# workspaces
 ws() {
   cd $HOME/Workspaces
   [[ -z $1 ]] && return 0
@@ -86,26 +88,6 @@ ws() {
   return 0
 }
 
-# fuzzy cd
-fzf-cd() {
-  setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(
-    FZF_DEFAULT_COMMAND=${FZF_ALT_C_COMMAND:-} \
-      FZF_DEFAULT_OPTS=$(__fzf_defaults "--tmux 70% --reverse --walker=dir,follow,hidden --scheme=path" "${FZF_ALT_C_OPTS-} +m") \
-      FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) < /dev/tty)"
-  if [[ -z "$dir" ]]; then
-    zle redisplay
-    return 0
-  fi
-  zle push-line
-  BUFFER="cd ${(q)dir:a}"
-  zle accept-line
-  local ret=$?
-  unset dir
-  return $ret
-}
-zle -N fzf-cd
-
 # fuzzy history
 fzf-history() {
   original=$FZF_DEFAULT_OPTS
@@ -114,26 +96,6 @@ fzf-history() {
   export FZF_DEFAULT_OPTS=$original
 }
 zle -N fzf-history
-
-# fuzzy workspaces
-fzf-ws() {
-  setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(
-    FZF_DEFAULT_COMMAND=${FZF_WS_COMMAND:-} \
-      FZF_DEFAULT_OPTS=$(__fzf_defaults "--tmux 70% --reverse --walker=dir,follow,hidden --scheme=path" "${FZF_ALT_C_OPTS-} +m") \
-      FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) < /dev/tty)"
-  if [[ -z "$dir" ]]; then
-    zle redisplay
-    return 0
-  fi
-  zle push-line
-  BUFFER="cd ${(q)dir:a}"
-  zle accept-line
-  local ret=$?
-  unset dir
-  return $ret
-}
-zle -N fzf-ws
 
 # colors
 autoload -U colors && colors
@@ -159,19 +121,12 @@ export HISTORY_SUBSTRING_SEARCH_PREFIXED="true"
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE="true"
 
 # fzf
-[[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2>/dev/null
 source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
-export FZF_ALT_C_COMMAND="fd --type d . $HOME --hidden --follow | sort"
-export FZF_WS_COMMAND="fd -d 3 --type d . $HOME/Workspaces --hidden --follow | sort"
-export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow | sort"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="--color=bg+:#2d3f76,bg:#1e2030,border:#589ed7,fg:#c8d3f5,hl+:#65bcff,hl:#65bcff,info:#545c7e,marker:#ff007c,pointer:#ff007c,prompt:#65bcff,spinner:#ff007c,gutter:#1e2030,header:#ff966c"
 # change fzf key-bindings
 bindkey "^T" transpose-chars
-bindkey -r "^F"
 bindkey "^H" fzf-history
-bindkey "^J" fzf-cd
-bindkey "^W" fzf-ws
+bindkey -r "^F"
 bindkey -r "^R"
 
 # orbstack completions
@@ -185,9 +140,9 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # shell options
-setopt glob_dots # no special treatment for file names with a leading dot
+setopt glob_dots    # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
 
 # aws completions
-complete -C "/opt/homebrew/bin/aws_completer" aws
-complete -C "/opt/homebrew/bin/aws_completer" awslocal
+# complete -C "/opt/homebrew/bin/aws_completer" aws
+# complete -C "/opt/homebrew/bin/aws_completer" awslocal

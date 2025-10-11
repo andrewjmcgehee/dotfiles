@@ -22,6 +22,7 @@ alias \
   grep="grep --color=auto" \
   gs="git status" \
   gtsc='git commit -m ''"updated $(date)"' \
+  h="head" \
   k="kubectl" \
   l="gls -1N --color=auto --group-directories-first" \
   ll="gls -AFNhl --color=auto --group-directories-first" \
@@ -32,7 +33,7 @@ alias \
   rm="rm -v" \
   sdn="sudo shutdown -h now" \
   so='source $ZDOTDIR/.zshrc' \
-  t="task" \
+  t="tail" \
   tw="timew" \
   v="nvim" \
   vfa='$EDITOR $HOME/.config/aliasrc' \
