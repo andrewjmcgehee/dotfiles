@@ -6,6 +6,7 @@ gh
 github-copilot
 ngrok
 .zsh_history
+nodemon.json
 # zsh binaries
 *.bak
 *.zwc
