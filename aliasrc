@@ -3,7 +3,7 @@
 
 alias \
   L="gls -AFNhl --color=auto --group-directories-first" \
-  act="source .venv/bin/activate" \
+  act="source .venv/bin/activate >/dev/null && nvm use >/dev/null" \
   cfg='cd $HOME/.config' \
   cfk='cd $HOME/.config/kitty' \
   cfn='cd $HOME/.config/nvim' \
@@ -12,13 +12,12 @@ alias \
   clear="z4h-clear-screen-soft-bottom" \
   cls="z4h-clear-screen-soft-bottom" \
   cp="cp -iv" \
-  d="docker" \
+  d="lazydocker" \
   dc="docker compose" \
   de="deactivate" \
+  dsp="docker system prune --all --volumes" \
   diff="diff --color=auto" \
-  gc="git commit --allow-empty -m" \
-  ga="git add -A" \
-  gac="git add -A && git commit --allow-empty -m" \
+  g="lazygit" \
   grep="grep --color=auto" \
   gs="git status" \
   gtsc='git commit -m ''"updated $(date)"' \
@@ -34,7 +33,6 @@ alias \
   sdn="sudo shutdown -h now" \
   so='source $ZDOTDIR/.zshrc' \
   t="tail" \
-  tw="timew" \
   v="nvim" \
   vfa='$EDITOR $HOME/.config/aliasrc' \
   vfg='$EDITOR $HOME/.config' \

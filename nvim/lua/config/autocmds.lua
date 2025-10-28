@@ -113,6 +113,9 @@ vim.api.nvim_create_autocmd("FileType", {
     dashboard_once = true
     local arg = vim.fn.argv(0)
     ---@cast arg string
+    if arg == "" then
+      return
+    end
     local path = vim.fn.fnamemodify(arg, ":p")
     if vim.fn.isdirectory(path) == 1 then
       Snacks.explorer({ cwd = path })

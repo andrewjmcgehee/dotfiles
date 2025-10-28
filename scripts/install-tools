@@ -62,6 +62,7 @@ brew-install gh
 brew-install git-delta
 brew-install go
 brew-install kubernetes-cli
+brew-install jesseduffield/lazydocker/lazydocker
 brew-install lazygit
 brew-install lua
 brew-install luajit

@@ -73,9 +73,19 @@ autoload -Uz compinit && compinit
 export GPG_TTY=$TTY
 
 ##### CUSTOM #####
-# lazy git
-g() {
-  /opt/homebrew/bin/lazygit "$@"
+
+# fuzzy history
+fzf-history() {
+  original=$FZF_DEFAULT_OPTS
+  export FZF_DEFAULT_OPTS="--tmux 70% $FZF_DEFAULT_OPTS"
+  fzf-history-widget
+  export FZF_DEFAULT_OPTS=$original
+}
+zle -N fzf-history
+
+# janky way to get git branch even in worktrees
+git_branch() {
+  echo $(git status) | awk '/On branch/ {print $3}'
 }
 
 # workspaces
@@ -87,15 +97,6 @@ ws() {
   fi
   return 0
 }
-
-# fuzzy history
-fzf-history() {
-  original=$FZF_DEFAULT_OPTS
-  export FZF_DEFAULT_OPTS="--tmux 70% $FZF_DEFAULT_OPTS"
-  fzf-history-widget
-  export FZF_DEFAULT_OPTS=$original
-}
-zle -N fzf-history
 
 # colors
 autoload -U colors && colors
@@ -144,5 +145,5 @@ setopt glob_dots    # no special treatment for file names with a leading dot
 setopt no_auto_menu # require an extra TAB press to open the completion menu
 
 # aws completions
-# complete -C "/opt/homebrew/bin/aws_completer" aws
-# complete -C "/opt/homebrew/bin/aws_completer" awslocal
+complete -C "/opt/homebrew/bin/aws_completer" aws
+complete -C "/opt/homebrew/bin/aws_completer" awslocal

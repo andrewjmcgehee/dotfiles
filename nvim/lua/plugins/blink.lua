@@ -1,5 +1,8 @@
 return {
   "saghen/blink.cmp",
+  dependencies = {
+    { "Exafunction/codeium.nvim" },
+  },
   opts = function()
     return {
       appearance = { nerd_font_variant = "mono", kind_icons = LazyVim.config.icons.kinds },
@@ -16,7 +19,6 @@ return {
         },
         keymap = {
           preset = "none",
-          ["<right>"] = { "accept", "fallback" },
           ["<left>"] = { "cancel", "fallback" },
           ["<esc>"] = { "cancel", "fallback" },
           ["<tab>"] = { "show", "accept", "fallback" },
@@ -40,17 +42,6 @@ return {
       fuzzy = { implementation = "prefer_rust" },
       keymap = {
         preset = "super-tab",
-        ["<right>"] = {
-          function(cmp)
-            if cmp.snippet_active() then
-              return cmp.accept()
-            else
-              return cmp.select_and_accept()
-            end
-          end,
-          LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
-          "fallback",
-        },
         ["<left>"] = { "hide", "fallback" },
       },
       signature = { enabled = true },
@@ -60,7 +51,7 @@ return {
         end,
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "cmdline" },
+        default = { "lsp", "path", "snippets", "buffer", "cmdline", "codeium" },
         per_filetype = {
           lua = { inherit_defaults = true, "lazydev" },
         },
@@ -72,6 +63,11 @@ return {
               end
               return 0
             end,
+          },
+          codeium = {
+            name = "Codeium",
+            module = "codeium.blink",
+            async = true,
           },
           lazydev = {
             name = "LazyDev",
